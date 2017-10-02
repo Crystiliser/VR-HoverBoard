@@ -1,0 +1,96 @@
+newmtl desert_area:___Default
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.60 0.60 0.60
+Tf 1.00 1.00 1.00
+map_Kd bs_desert_tex.png
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 0.00
+newmtl desert_trees:___Default
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.60 0.60 0.60
+Tf 1.00 1.00 1.00
+map_Kd bs_deserttree_tex.png
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 0.00
+newmtl forest_area:___Default
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.60 0.60 0.60
+Tf 1.00 1.00 1.00
+map_Kd bs_forest_tex.png
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 0.00
+newmtl forest_trees:___Default
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.60 0.60 0.60
+Tf 1.00 1.00 1.00
+map_Kd bs_foresttree_tex.png
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 0.00
+newmtl grass_stuff:___Default
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.60 0.60 0.60
+Tf 1.00 1.00 1.00
+map_Kd bs_grass_tex.png
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 0.00
+newmtl grassland_area:orig_21___Default
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.60 0.60 0.60
+Tf 1.00 1.00 1.00
+map_Kd bs_plains_tex.png
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 0.00
+newmtl grassland_trees:___Default
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.60 0.60 0.60
+Tf 1.00 1.00 1.00
+map_Kd bs_plainstree_tex.png
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 0.00
+newmtl ice_area:___Default
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.60 0.60 0.60
+Tf 1.00 1.00 1.00
+map_Kd bs_frozen_tex.png
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 0.00
+newmtl initialShadingGroup
+illum 4
+Kd 0.50 0.50 0.50
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+newmtl swamp_area:___Default
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.60 0.60 0.60
+Tf 1.00 1.00 1.00
+map_Kd bs_swamp_tex.png
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 0.00
+newmtl swamp_tree:___Default
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.60 0.60 0.60
+Tf 1.00 1.00 1.00
+map_Kd bs_swamptree_tex.png
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 0.00

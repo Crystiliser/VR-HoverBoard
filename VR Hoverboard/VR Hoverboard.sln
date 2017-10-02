@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VR Hoverboard", "VR Hoverboard.csproj", "{7EE803C1-F8B5-878C-9C65-3182190D963C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VR Hoverboard.Plugins", "VR Hoverboard.Plugins.csproj", "{BCDA1E43-1EE1-21A8-E3D8-6AC997DE0937}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VR Hoverboard.Editor", "VR Hoverboard.Editor.csproj", "{085D7767-3261-B275-7B1E-F9DE8CB68769}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VR Hoverboard.Editor.Plugins", "VR Hoverboard.Editor.Plugins.csproj", "{5B0418E4-B1AD-1C1A-C327-F1F2DB66893D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7EE803C1-F8B5-878C-9C65-3182190D963C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EE803C1-F8B5-878C-9C65-3182190D963C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EE803C1-F8B5-878C-9C65-3182190D963C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EE803C1-F8B5-878C-9C65-3182190D963C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCDA1E43-1EE1-21A8-E3D8-6AC997DE0937}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCDA1E43-1EE1-21A8-E3D8-6AC997DE0937}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCDA1E43-1EE1-21A8-E3D8-6AC997DE0937}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCDA1E43-1EE1-21A8-E3D8-6AC997DE0937}.Release|Any CPU.Build.0 = Release|Any CPU
+		{085D7767-3261-B275-7B1E-F9DE8CB68769}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{085D7767-3261-B275-7B1E-F9DE8CB68769}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{085D7767-3261-B275-7B1E-F9DE8CB68769}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{085D7767-3261-B275-7B1E-F9DE8CB68769}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B0418E4-B1AD-1C1A-C327-F1F2DB66893D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B0418E4-B1AD-1C1A-C327-F1F2DB66893D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B0418E4-B1AD-1C1A-C327-F1F2DB66893D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B0418E4-B1AD-1C1A-C327-F1F2DB66893D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

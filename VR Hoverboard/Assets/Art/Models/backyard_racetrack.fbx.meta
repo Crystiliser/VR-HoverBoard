@@ -1,0 +1,179 @@
+fileFormatVersion: 2
+guid: 9eb5603aaad096f47b2b5fbb650b12e8
+timeCreated: 1502477556
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: board2
+    100004: board5
+    100006: board6
+    100008: board7
+    100010: fence
+    100012: ground2
+    100014: mud1
+    100016: mud10
+    100018: mud11
+    100020: mud2
+    100022: mud3
+    100024: mud4
+    100026: mud5
+    100028: mud6
+    100030: mud7
+    100032: mud8
+    100034: mud9
+    100036: outside
+    100038: ukg_board_G
+    100040: ukg_mud_G
+    400000: //RootNode
+    400002: board2
+    400004: board5
+    400006: board6
+    400008: board7
+    400010: fence
+    400012: ground2
+    400014: mud1
+    400016: mud10
+    400018: mud11
+    400020: mud2
+    400022: mud3
+    400024: mud4
+    400026: mud5
+    400028: mud6
+    400030: mud7
+    400032: mud8
+    400034: mud9
+    400036: outside
+    400038: ukg_board_G
+    400040: ukg_mud_G
+    2300000: board2
+    2300002: board5
+    2300004: board6
+    2300006: board7
+    2300008: fence
+    2300010: ground2
+    2300012: mud1
+    2300014: mud10
+    2300016: mud11
+    2300018: mud2
+    2300020: mud3
+    2300022: mud4
+    2300024: mud5
+    2300026: mud6
+    2300028: mud7
+    2300030: mud8
+    2300032: mud9
+    2300034: outside
+    3300000: board2
+    3300002: board5
+    3300004: board6
+    3300006: board7
+    3300008: fence
+    3300010: ground2
+    3300012: mud1
+    3300014: mud10
+    3300016: mud11
+    3300018: mud2
+    3300020: mud3
+    3300022: mud4
+    3300024: mud5
+    3300026: mud6
+    3300028: mud7
+    3300030: mud8
+    3300032: mud9
+    3300034: outside
+    4300000: outside
+    4300002: ground2
+    4300004: fence
+    4300006: board6
+    4300008: board7
+    4300010: board5
+    4300012: board2
+    4300014: mud1
+    4300016: mud2
+    4300018: mud3
+    4300020: mud4
+    4300022: mud5
+    4300024: mud6
+    4300026: mud7
+    4300028: mud8
+    4300030: mud9
+    4300032: mud10
+    4300034: mud11
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
