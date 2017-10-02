@@ -31,11 +31,11 @@ public class ScoreManager : MonoBehaviour
     }
 
     public levelCurseScores[] topCurseScores;
-    int currentAmoutFilled = 0;
+    public int currentAmoutFilled = 0;
 
     //top 10 scores for continuous mode
     public continuousScores[] topContinuousScores;
-    int curFilledCont = -1;
+    public int curFilledCont = -1;
     [HideInInspector] public bool firstPortal = true;
 
     void initScores()

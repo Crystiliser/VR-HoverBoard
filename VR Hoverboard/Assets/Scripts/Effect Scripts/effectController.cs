@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum particleEffectTypesEnum { rain, snow, crash, other }
+public enum particleEffectTypesEnum { rain, snow, crash, sandDust, other }
 
 public class effectController : MonoBehaviour
 {
@@ -57,6 +57,9 @@ public class effectController : MonoBehaviour
                 case particleEffectTypesEnum.snow:
                     triggerParticleEffects[1].Play();
                     break;
+                case particleEffectTypesEnum.sandDust:
+                    triggerParticleEffects[3].Play();
+                    break;
                 case particleEffectTypesEnum.other:
                     for (int i = 0; i < triggerParticleEffects.Length; i++)
                     {
@@ -89,6 +92,9 @@ public class effectController : MonoBehaviour
                     break;
                 case particleEffectTypesEnum.snow:
                     triggerParticleEffects[1].Stop();
+                    break;
+                case particleEffectTypesEnum.sandDust:
+                    triggerParticleEffects[3].Stop();
                     break;
                 case particleEffectTypesEnum.other:
                     for (int i = 0; i < triggerParticleEffects.Length; i++)

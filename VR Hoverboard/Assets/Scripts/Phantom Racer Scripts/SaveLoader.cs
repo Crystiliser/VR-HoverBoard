@@ -89,6 +89,7 @@ public static class SaveLoader
     {
         //one score per level
         public serializableScore[] levels;
+        public string name;
     }
 
     [System.Serializable]
@@ -149,10 +150,11 @@ public static class SaveLoader
         for (int i = 0; i < unconvertedContScores.Length; i++)
         {
             convertedScores.continuousScores[i].levels = new serializableScore[unconvertedContScores[i].levels.Length];
+            convertedScores.continuousScores[i].name = unconvertedContScores[i].name;
             for (int j = 0; j < unconvertedContScores[i].levels.Length; j++)
             {
                 convertedScores.continuousScores[i].levels[j].board = unconvertedContScores[i].levels[j].board;
-                convertedScores.continuousScores[i].levels[j].name = unconvertedContScores[i].levels[j].name;
+                //convertedScores.continuousScores[i].levels[j].name = unconvertedContScores[i].levels[j].name;
                 convertedScores.continuousScores[i].levels[j].score = unconvertedContScores[i].levels[j].score;
                 convertedScores.continuousScores[i].levels[j].time = unconvertedContScores[i].levels[j].time;
 
@@ -204,6 +206,8 @@ public static class SaveLoader
                 convertedScores[i].curseScores = new ScoreManager.scoreStruct[unConvertedScores[i].curseScores.Length];
                 for (int j = 0; j < unConvertedScores[i].curseScores.Length; j++)
                 {
+                    GameManager.instance.scoreScript.currentAmoutFilled += 1;
+
                     convertedScores[i].curseScores[j].board = unConvertedScores[i].curseScores[j].board;
                     convertedScores[i].curseScores[j].name = unConvertedScores[i].curseScores[j].name;
                     convertedScores[i].curseScores[j].score = unConvertedScores[i].curseScores[j].score;
@@ -258,10 +262,12 @@ public static class SaveLoader
             for (int i = 0; i < unConvertedScores.Length; i++)
             {
                 convertedScores[i].levels = new ScoreManager.scoreStruct[unConvertedScores[i].levels.Length];
+                convertedScores[i].name = unConvertedScores[i].name;
+                GameManager.instance.scoreScript.curFilledCont += 1;
                 for (int j = 0; j < unConvertedScores[i].levels.Length; j++)
                 {
                     convertedScores[i].levels[j].board = unConvertedScores[i].levels[j].board;
-                    convertedScores[i].levels[j].name = unConvertedScores[i].levels[j].name;
+                    //convertedScores[i].levels[j].name = unConvertedScores[i].levels[j].name;
                     convertedScores[i].levels[j].score = unConvertedScores[i].levels[j].score;
                     convertedScores[i].levels[j].time = unConvertedScores[i].levels[j].time;
 
