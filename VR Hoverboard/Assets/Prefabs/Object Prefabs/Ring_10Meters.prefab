@@ -131,15 +131,15 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1995531589141898}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: 0.9110561, z: -0, w: -0.41228253}
+  m_LocalPosition: {x: 191.3, y: 159.1, z: 692.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4409510115833086}
   - {fileID: 4797978003202886}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 228.69699, z: 0}
 --- !u!23 &23378125056684008
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -333,9 +333,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duplicatePosition: 0
   positionInOrder: 1
-  bonusTime: 1.2248564
+  bonusTime: 2.7268298
   lastRingInScene: 0
   nextScene: 1
+  timeBonusOriginal: 10
+  timeBonusMachI: 8
+  timeBonusMachII: 4
+  timeBonusMachIII: 0
 --- !u!114 &114283594312928292
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -410,14 +414,14 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1056589851
+  randomSeed: -501130082
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -853,7 +857,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 5
     enabled: 1
-    type: 17
+    type: 0
     angle: 25.495228
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -1049,7 +1053,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    m_BurstCount: 2
+    m_BurstCount: 4
     m_Bursts:
     - time: 0
       minCount: 200
@@ -1057,6 +1061,16 @@ ParticleSystem:
       cycleCount: 1
       repeatInterval: 0.01
     - time: 0.1
+      minCount: 200
+      maxCount: 200
+      cycleCount: 1
+      repeatInterval: 0.01
+    - time: 0.2
+      minCount: 150
+      maxCount: 150
+      cycleCount: 1
+      repeatInterval: 0.01
+    - time: 0.3
       minCount: 150
       maxCount: 150
       cycleCount: 1
@@ -1073,9 +1087,15 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 2
           time: 0
-          value: 1
+          value: 0.96261597
           inSlope: 0
           outSlope: 0
+          tangentMode: 0
+        - serializedVersion: 2
+          time: 0.75291455
+          value: 0.68251723
+          inSlope: -1.0994077
+          outSlope: -1.0994077
           tangentMode: 0
         - serializedVersion: 2
           time: 1

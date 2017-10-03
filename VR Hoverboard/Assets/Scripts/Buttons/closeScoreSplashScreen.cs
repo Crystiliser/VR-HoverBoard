@@ -98,6 +98,6 @@ public class closeScoreSplashScreen : SelectedObject
             default:
                 break;
         }
-        lMenu.updateScoreDisplay();
+        lMenu.UpdateScoreDisplay();
     }
 }

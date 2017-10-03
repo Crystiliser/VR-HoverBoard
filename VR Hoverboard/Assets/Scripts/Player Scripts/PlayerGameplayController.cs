@@ -232,7 +232,7 @@ public class PlayerGameplayController : MonoBehaviour
         pitch = (float)gyro.rollAngle * Mathf.Rad2Deg * gyroPitchPercentIncrease;
         pitch = Mathf.Lerp(gyroPrevPitch, pitch, gryoPitchInterpolation);
         gyroPrevPitch = pitch;
-        
+
         yaw = playerRigidbody.rotation.eulerAngles.y + (float)gyro.pitchAngle * movementVariables.yawSensitivity;
 
         ApplyForce();
@@ -246,7 +246,7 @@ public class PlayerGameplayController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         //scale our impulse by our bounce amount if we aren't in the hub world
-        if (SceneManager.GetActiveScene().buildIndex != 2)
+        if (SceneManager.GetActiveScene().buildIndex != 1)
             playerRigidbody.AddForce(collision.impulse * movementVariables.bounceModifier, ForceMode.Impulse);
     }
 
@@ -260,4 +260,16 @@ public class PlayerGameplayController : MonoBehaviour
         EventManager.OnToggleMovement -= SetPlayerMovementLock;
     }
 
+    [Space, SerializeField]
+    private MeshRenderer playerModel = null;
+    public void TogglePlayerModel(bool showPlayer)
+    {
+        if (null != playerModel)
+            playerModel.gameObject.SetActive(showPlayer);
+    }
+    public void TogglePlayerModel()
+    {
+        if (null != playerModel)
+            playerModel.gameObject.SetActive(!playerModel.gameObject.activeSelf);
+    }
 }

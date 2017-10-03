@@ -7,9 +7,11 @@
     private const int maxLength = 45;
     private static bool linesSync = false;
     private static TMPro.TextMeshProUGUI textmesh = null;
-    public static void WriteLine(string line)
+    private const string LOG_START = "BuildDebugger: \"";
+    public static void WriteLine(string line, bool writeToUnity = true)
     {
-        UnityEngine.Debug.Log("BuildDebugger: \"" + line + "\"");
+        if (writeToUnity)
+            UnityEngine.Debug.Log(LOG_START + line + "\"");
         if (null == lines)
             return;
         if (line.Length > maxLength)
@@ -54,26 +56,56 @@
         linesSync = false;
         textmesh.SetText(tmstr);
         textmesh.ForceMeshUpdate();
-        if (UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.T))
-            TestFunc();
+        if (UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.T) ||
+            (UnityEngine.Input.GetKey(UnityEngine.KeyCode.JoystickButton2) &&
+            UnityEngine.Input.GetKey(UnityEngine.KeyCode.JoystickButton3) &&
+            UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.JoystickButton5)))
+            TestFunc(1);
     }
-    private void TestFunc()
+    private void TestFunc(int id)
     {
-        WriteLine("Mirroring");
-        UnityEngine.GameObject[] objs = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
-        System.Collections.Generic.List<UnityEngine.GameObject> objsList = new System.Collections.Generic.List<UnityEngine.GameObject>();
-        foreach (UnityEngine.GameObject gObj in objs)
-            objsList.Add(gObj);
-        UnityEngine.GameObject go = new UnityEngine.GameObject("MIRRORROOT");
-        go.transform.position = GameManager.player.transform.position;
-        go.transform.rotation = GameManager.player.transform.rotation;
-        foreach (UnityEngine.GameObject gObj in objsList)
-            gObj.transform.parent = go.transform;
-        UnityEngine.Vector3 rScale = go.transform.localScale;
-        rScale.x = -rScale.x;
-        go.transform.localScale = rScale;
-        foreach (UnityEngine.GameObject gObj in objsList)
-            gObj.transform.parent = null;
-        Destroy(go);
+        switch (id)
+        {
+            case 0: // Dynamic mirroring
+                {
+                    WriteLine("Mirroring");
+                    UnityEngine.GameObject[] objs = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+                    System.Collections.Generic.List<UnityEngine.GameObject> objsList = new System.Collections.Generic.List<UnityEngine.GameObject>();
+                    foreach (UnityEngine.GameObject gObj in objs)
+                        objsList.Add(gObj);
+                    UnityEngine.GameObject go = new UnityEngine.GameObject("MIRRORROOT");
+                    go.transform.position = GameManager.player.transform.position;
+                    go.transform.rotation = GameManager.player.transform.rotation;
+                    foreach (UnityEngine.GameObject gObj in objsList)
+                        gObj.transform.parent = go.transform;
+                    UnityEngine.Vector3 rScale = go.transform.localScale;
+                    rScale.x = -rScale.x;
+                    go.transform.localScale = rScale;
+                    foreach (UnityEngine.GameObject gObj in objsList)
+                        gObj.transform.parent = null;
+                    Destroy(go);
+                }
+                break;
+            case 1: // Player model
+                {
+                    GameManager.player.GetComponent<PlayerGameplayController>().TogglePlayerModel();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    private void GetLog(string condition, string stackTrace, UnityEngine.LogType type)
+    {
+        if (!condition.StartsWith(LOG_START))
+            WriteLine(type.ToString() + " << " + condition, false);
+    }
+    private void OnEnable()
+    {
+        UnityEngine.Application.logMessageReceivedThreaded += GetLog;
+    }
+    private void OnDisable()
+    {
+        UnityEngine.Application.logMessageReceivedThreaded -= GetLog;
     }
 }

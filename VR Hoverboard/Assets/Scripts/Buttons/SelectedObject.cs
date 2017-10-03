@@ -21,7 +21,7 @@ public abstract class SelectedObject : MonoBehaviour
     private bool CanSelect { get { return waitTimer <= 0.0f; } set { waitTimer = value ? 0.0f : waitTime; } }
     private bool isDisabled = false;
     private bool selectsoundplayed = false;
-    public bool IsDisabled { set { isDisabled = value; if (isDisabled && null != theReticle) theReticle.updateReticle(0.0f); } }
+    public bool IsDisabled { set { isDisabled = value; if (isDisabled && null != theReticle) theReticle.UpdateReticleFill(0.0f); } }
     protected void Awake()
     {
         if (delay < 0)
@@ -32,25 +32,25 @@ public abstract class SelectedObject : MonoBehaviour
     private reticle theReticle;
 
     //grabs the reticle object to show timer status
-    public void selected(reticle grabbedReticle)
+    public void Selected(reticle grabbedReticle)
     {
         theReticle = grabbedReticle;
         if (!CanSelect || isDisabled)
             return;
         TooltipTextScript.SetText(tooltipText);
-        selectedFuntion();
+        SelectedFunction();
         isSelected = true;
     }
 
     //What the class actually does with the object while selected(if applicable)
-    protected virtual void selectedFuntion() { }
+    protected virtual void SelectedFunction() { }
 
     //deals with leftovers from selecting the object when you look away
-    public void deSelected()
+    public void Deselected()
     {
         TooltipTextScript.SetText("");
-        deSelectedFunction();
-        theReticle.updateReticle(0);
+        DeselectedFunction();
+        theReticle.UpdateReticleFill(0.0f);
         isSelected = false;
         timeWaited = 0;
         delayTime = 0;
@@ -58,7 +58,7 @@ public abstract class SelectedObject : MonoBehaviour
     }
 
     //Cleans up what the class actually does(if applicable)
-    protected virtual void deSelectedFunction() { }
+    protected virtual void DeselectedFunction() { }
 
     //what the class actually does when select is successful, inherited class must fill this out
     public abstract void selectSuccessFunction();
@@ -74,21 +74,16 @@ public abstract class SelectedObject : MonoBehaviour
             {
                 selectSuccessFunction();
                 CanSelect = false;
-                theReticle.updateReticle(0);
+                theReticle.UpdateReticleFill(0.0f);
                 timeWaited = 0;
                 if (isActiveAndEnabled)
                 {
-                    if (null == successSound)
-                        BuildDebugger.WriteLine("successSound is null");
                     AudioSource.PlayClipAtPoint(successSound, transform.position, AudioLevels.Instance.SfxVolume);
                 }
             }
-            float ratio = (float)timeWaited / timeToWait;
-            theReticle.updateReticle(ratio);
+            theReticle.UpdateReticleFill((float)timeWaited / timeToWait);
             if (selectsoundplayed == false && timeWaited >= 2)
             {
-                if (null == selectedSound)
-                    BuildDebugger.WriteLine("selectedSound is null");
                 AudioSource.PlayClipAtPoint(selectedSound, transform.position, AudioLevels.Instance.SfxVolume);
                 selectsoundplayed = true;
             }

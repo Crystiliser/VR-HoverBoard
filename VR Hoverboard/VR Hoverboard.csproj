@@ -191,6 +191,7 @@
     <Compile Include="Assets\Scripts\Hub World\WorldPortalProperties.cs" />
     <Compile Include="Assets\Scripts\Hub World\WorldPortalScript.cs" />
     <Compile Include="Assets\Scripts\invertCollision.cs" />
+    <Compile Include="Assets\Scripts\LMS\LevelMenuStuff.cs" />
     <Compile Include="Assets\Scripts\Managers\AudioLevels.cs" />
     <Compile Include="Assets\Scripts\Managers\BoardManager.cs" />
     <Compile Include="Assets\Scripts\Managers\BuildDebugger.cs" />

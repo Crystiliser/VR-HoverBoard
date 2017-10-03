@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 public class BackgroundMusic : MonoBehaviour
 {
+    [HideInInspector]
     public AudioSource audioSource = null;
     private void Awake()
     {
@@ -10,7 +11,7 @@ public class BackgroundMusic : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        else if(objs.Length > 1 && objs[0].GetComponent<BackgroundMusic>().audioSource.clip.name != objs[1].GetComponent<BackgroundMusic>().audioSource.clip.name)
+        else if (objs.Length > 1 && objs[0].GetComponent<BackgroundMusic>().audioSource.clip.name != objs[1].GetComponent<BackgroundMusic>().audioSource.clip.name)
         {
             Destroy(objs[0]);
         }

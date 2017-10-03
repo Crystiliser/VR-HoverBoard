@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Canyon.unity
+- path: Assets/Scenes/HubWorld.unity
   isLoaded: 1
   isActive: 1

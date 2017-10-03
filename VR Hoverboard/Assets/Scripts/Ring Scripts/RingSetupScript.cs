@@ -19,19 +19,29 @@ public class RingSetupScript : MonoBehaviour
         if (arrowScript != null)
         {
             RingProperties[] rings;
+
+            //use a list to remove rings we won't need depending on game mode
+            List<RingProperties> ringList = new List<RingProperties>();
+
             rings = GetComponentsInChildren<RingProperties>();
 
             //insertion sort the rings according to their position in order
-            int arrayLength = rings.GetLength(0);
-            InsertionSort(rings, arrayLength);
-            
-            setRingsMode(mode, rings);
+            InsertionSort(rings, rings.GetLength(0));
 
-            //assign the transforms from the sorted array
-            ringTransforms = new Transform[rings.GetLength(0)];
+            //set our sorted rings to our ring list
+            foreach (RingProperties rp in rings)
+            {
+                ringList.Add(rp);
+            }
 
-            for (int i = 0; i < arrayLength; i++)
-                ringTransforms[i] = rings[i].transform;
+            //update our ring list depending on game mode
+            setRingsMode(mode, ringList);
+
+            //assign the transforms from the sorted list
+            ringTransforms = new Transform[ringList.Count];
+
+            for (int i = 0; i < ringList.Count; i++)
+                ringTransforms[i] = ringList[i].transform;
             
 
             arrowScript.thingsToLookAt = ringTransforms;
@@ -43,7 +53,7 @@ public class RingSetupScript : MonoBehaviour
         }
     }
 
-    void setRingsMode(GameModes theMode, RingProperties[] rings)
+    void setRingsMode(GameModes theMode, List<RingProperties> rings)
     {
         switch (theMode)
         {
@@ -51,26 +61,28 @@ public class RingSetupScript : MonoBehaviour
                 arrowScript.currentlyLookingAt = 1;
                 break;
             case GameModes.Cursed:
-                RingProperties lastRing = rings[rings.Length - 1];
-                RingProperties nextToLastRing = rings[rings.Length - 2];
+                RingProperties lastRing = rings[rings.Count - 1];
+                RingProperties nextToLastRing = rings[rings.Count - 2];
 
                 if (lastRing.nextScene != 1)
                 {
                     lastRing.gameObject.SetActive(false);
+                    rings.Remove(lastRing);
                 }
                 else
                 {
                     nextToLastRing.gameObject.SetActive(false);
+                    rings.Remove(nextToLastRing);
                 }
                 arrowScript.currentlyLookingAt = 1;
                 break;
             case GameModes.Free:
-                for (int i = 0; i < rings.Length - 2; i++)
+                for (int i = 0; i < rings.Count - 2; i++)
                 {
                     rings[i].gameObject.SetActive(false);
                 }
 
-                arrowScript.currentlyLookingAt = rings.Length - 1;
+                arrowScript.currentlyLookingAt = rings.Count - 1;
                 break;
             case GameModes.GameModesSize:
                 break;

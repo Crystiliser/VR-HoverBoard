@@ -1,18 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Portal_Audio : MonoBehaviour
 {
-    private AudioSource Source;
+    private AudioSource audioSource = null;
 
     void Start()
     {
-        Source = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
         AudioLevels.Instance.OnEnvVolumeChange += UpdateVolume;
         UpdateVolume();
     }
 
     private void OnDestroy() { try { AudioLevels.Instance.OnEnvVolumeChange -= UpdateVolume; } catch { } }
-    private void UpdateVolume() { Source.volume = AudioLevels.Instance.EnvVolume; }
+    private void UpdateVolume() { audioSource.volume = AudioLevels.Instance.EnvVolume; }
 }

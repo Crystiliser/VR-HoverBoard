@@ -10,7 +10,7 @@ public class LevelMenu : MonoBehaviour
     enum DisplayToUpdate { TopScores, GameMode, AICount, Difficulty, PortalSelect, displayCount };
     bool[] displayUpdateFlags;
 
-    enum Levels { Canyon = 2, Multi = 3, RaceTrack = 4, levelCount = 5 };
+    enum Levels { Canyon = 2, MultiEnvironment = 3, BackyardRacetrack = 4, levelCount };
     Levels currentLevel = Levels.Canyon;
 
     [SerializeField] BackBoardSinkEffect sinkEffect;
@@ -19,15 +19,18 @@ public class LevelMenu : MonoBehaviour
     ManagerClasses.GameMode gameMode;
 
     [Header("Level Options")]
-    [SerializeField] TextMeshPro gameModeTMP;
+    [SerializeField]
+    TextMeshPro gameModeTMP;
 
     [Header("Portal Select")]
-    [SerializeField] WorldPortalProperties portal;
+    [SerializeField]
+    WorldPortalProperties portal;
     [SerializeField] Image preview;
     [SerializeField] Sprite[] previewSprites;
 
     [Header("Top Scores")]
-    [SerializeField] TextMeshPro[] highScoreTMPS;
+    [SerializeField]
+    TextMeshPro[] highScoreTMPS;
     ScoreManager scoreScript;
     int[] scores = new int[10];
     float[] times = new float[10];
@@ -52,7 +55,7 @@ public class LevelMenu : MonoBehaviour
         }
         else
         {
-            updateScoreDisplay();
+            UpdateScoreDisplay();
         }
     }
 
@@ -106,16 +109,16 @@ public class LevelMenu : MonoBehaviour
         StartCoroutine(sinkEffect.SinkEffectCoroutine(backs[(int)DisplayToUpdate.GameMode]));
     }
 
-    public void updateScoreDisplay()
+    public void UpdateScoreDisplay()
     {
         switch (gameMode.currentMode)
         {
             case GameModes.Continuous:
-                for (int i = 0; i < scoreScript.topContinuousScores.Length; i++)
+                for (int i = 0; i < scoreScript.topContinuousScores.Length; ++i)
                 {
                     int cumulativeScore = 0;
                     float totalTime = 0;
-                    for (int j = 0; j < scoreScript.topContinuousScores[i].levels.Length; j++)
+                    for (int j = 0; j < scoreScript.topContinuousScores[i].levels.Length; ++j)
                     {
                         cumulativeScore += scoreScript.topContinuousScores[i].levels[j].score;
                         totalTime += scoreScript.topContinuousScores[i].levels[j].time;
@@ -124,21 +127,17 @@ public class LevelMenu : MonoBehaviour
                     times[i] = totalTime;
                     names[i] = scoreScript.topContinuousScores[i].name;
                 }
-
                 break;
-
             case GameModes.Cursed:
-                for (int i = 0; i < scoreScript.topCurseScores[(int)currentLevel].curseScores.Length; i++)
+                for (int i = 0; i < scoreScript.topCurseScores[(int)currentLevel].curseScores.Length; ++i)
                 {
                     scores[i] = scoreScript.topCurseScores[(int)currentLevel].curseScores[i].score;
                     times[i] = scoreScript.topCurseScores[(int)currentLevel].curseScores[i].time;
                     names[i] = scoreScript.topCurseScores[(int)currentLevel].curseScores[i].name;
                 }
-
                 break;
-
             case GameModes.Free:
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 10; ++i)
                 {
                     scores[i] = 0;
                     times[i] = 0;
@@ -151,15 +150,15 @@ public class LevelMenu : MonoBehaviour
                 break;
         }
 
-        for (int i = 0; i < highScoreTMPS.Length; i++)
+        for (int i = 0; i < highScoreTMPS.Length; ++i)
         {
             highScoreTMPS[i].SetText(i + ": " + names[i] + " | " + scores[i] + " | " + times[i].ToString("n2") + " ");
         }
 
     }
 
-    void CheckUpdateFlags()
-    {     
+    private void CheckUpdateFlags()
+    {
         for (int i = 0; i < displayUpdateFlags.Length; i++)
         {
             if (displayUpdateFlags[i])
@@ -170,12 +169,12 @@ public class LevelMenu : MonoBehaviour
         }
     }
 
-    void UpdateDisplay(DisplayToUpdate display)
+    private void UpdateDisplay(DisplayToUpdate display)
     {
         switch (display)
         {
             case DisplayToUpdate.TopScores:
-                updateScoreDisplay();
+                UpdateScoreDisplay();
                 break;
             case DisplayToUpdate.GameMode:
                 gameModeTMP.text = gameMode.currentMode.ToString();
@@ -199,5 +198,4 @@ public class LevelMenu : MonoBehaviour
     {
         BackBoardSinkEffect.StartContentUpdate -= CheckUpdateFlags;
     }
-
 }

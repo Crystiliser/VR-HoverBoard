@@ -298,6 +298,42 @@ public class ScoreManager : MonoBehaviour
         prevRingBonusTime = 0f;
         respawnCount = 0;
 
+
+        float max;
+        float min;
+        float average;
+        if (GameManager.instance.boardScript.gamepadEnabled)
+        {
+            max = GameManager.instance.boardScript.customGamepadMovementVariables.maxSpeed;
+            min = GameManager.instance.boardScript.customGamepadMovementVariables.minSpeed;
+            average = (min) + ((max - min) * 0.5f);
+        }
+        else
+        {
+            max = GameManager.instance.boardScript.customGyroMovementVariables.maxSpeed;
+            min = GameManager.instance.boardScript.customGyroMovementVariables.minSpeed;
+            average = (min) + ((max - min) * 0.5f);
+        }
+        switch (GameManager.instance.boardScript.currentBoardSelection)
+        {
+            case BoardType.Original:
+                GameManager.instance.roundTimer.TimeLeft = 5.0f + (average / max) * 0.6f;
+                break;
+            case BoardType.MachI:
+                GameManager.instance.roundTimer.TimeLeft = 5.0f + (average / max) * 0.1f;
+                break;
+            case BoardType.MachII:
+                GameManager.instance.roundTimer.TimeLeft = 5.0f ;
+                break;
+            case BoardType.MachIII:
+                GameManager.instance.roundTimer.TimeLeft = 5.0f -((average / max) * 0.5f);
+                break;
+            case BoardType.Custom:
+                break;
+            default:
+                break;
+        }
+
         switch (GameManager.instance.gameMode.currentMode)
         {
             case GameModes.Continuous:

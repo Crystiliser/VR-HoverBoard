@@ -23,15 +23,15 @@ public class BoardStandSelectBoard : SelectedObject
         //renderMat.DisableKeyword("_EMISSION");
     }
 
-    protected override void selectedFuntion()
+    protected override void SelectedFunction()
     {
-        base.selectedFuntion();
+        base.SelectedFunction();
         //renderMat.EnableKeyword("_EMISSION");
         renderMat.SetColor("_EmissionColor", Color.white);
     }
-    protected override void deSelectedFunction()
+    protected override void DeselectedFunction()
     {
-        base.deSelectedFunction();
+        base.DeselectedFunction();
         //renderMat.DisableKeyword("_EMISSION");
         renderMat.SetColor("_EmissionColor", Color.black);
     }
@@ -39,6 +39,7 @@ public class BoardStandSelectBoard : SelectedObject
     {
         //set the player board to one of our pre-defined boards
         boardManager.BoardSelect(selectionVariables.boardType);
+
         EventManager.OnCallBoardMenuEffects();
     }
 

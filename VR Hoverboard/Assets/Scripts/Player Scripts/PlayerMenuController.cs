@@ -1,40 +1,32 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.VR;
 
 public class PlayerMenuController : MonoBehaviour
 {
-    [Range(2f, 60f)] [SerializeField] float hoverForce = 15f;
-    [Range(0.1f, 10.0f)] [SerializeField] float hoverHeight = 2f;
+    [SerializeField, Range(2.0f, 60.0f)] private float hoverForce = 15.0f;
+    [SerializeField, Range(0.1f, 10.0f)] private float hoverHeight = 2.0f;
 
-    [Header("Controller Specific Variables")]
-    [Range(5f, 60f)]
-    [SerializeField]
-    float controllerForwardSpeed = 25f;
-    [Range(5f, 60f)] [SerializeField] float controllerTurnSpeed = 12f;
-    [Range(0.1f, 5f)] [SerializeField] float debugCameraSpeed = 1f;
+    [Header("Controller Specific Variables"), SerializeField, Range(5.0f, 60.0f)] private float controllerForwardSpeed = 25.0f;
+    [SerializeField, Range(5.0f, 60.0f)] private float controllerTurnSpeed = 12.0f;
+    [SerializeField, Range(0.1f, 5.0f)] private float debugCameraSpeed = 1.0f;
 
-    [Header("Gyro Specific Variables")]
-    [Range(1f, 3f)]
-    [SerializeField]
-    float gyroForwardSpeed = 1.3f;
-    [Range(0.1f, 3f)] [SerializeField] float gyroTurnSpeed = 0.3f;
-    [Range(0.0f, 30.0f)] [SerializeField] float gyroPitchDeadZone = 4f;
-    [Range(0.0f, 30.0f)] [SerializeField] float gyroYawDeadZone = 5f;
-    float pitch;
-    float yaw;
+    [Header("Gyro Specific Variables"), SerializeField, Range(1.0f, 3.0f)] private float gyroForwardSpeed = 1.3f;
+    [SerializeField, Range(0.1f, 3.0f)] private float gyroTurnSpeed = 0.3f;
+    [SerializeField, Range(0.0f, 30.0f)] private float gyroPitchDeadZone = 4.0f;
+    [SerializeField, Range(0.0f, 30.0f)] private float gyroYawDeadZone = 5.0f;
+    private float pitch = 0.0f;
+    private float yaw = 0.0f;
 
-    float inverseHoverHeight;
-    bool coroutinesStopped;
-    bool gamepadEnabled;
-    bool inAMenu;
-    bool menuMovementIsLocked;
+    private bool coroutinesStopped = false;
+    private bool gamepadEnabled = false;
+    private bool inAMenu = false;
+    private bool menuMovementIsLocked = false;
 
-    Rigidbody playerRB;
-    Transform cameraContainerTransform;
-    SpatialData gyro;
+    private Rigidbody playerRB = null;
+    private Transform cameraContainerTransform = null;
+    private SpatialData gyro = null;
 
     //called by our BoardManager
     public void SetupMenuControllerScript()
@@ -43,30 +35,35 @@ public class PlayerMenuController : MonoBehaviour
         gyro = GameManager.instance.boardScript.gyro;
         gamepadEnabled = GameManager.instance.boardScript.gamepadEnabled;
 
-        inverseHoverHeight = hoverHeight / 1f;
         coroutinesStopped = false;
         menuMovementIsLocked = false;
     }
 
+    private bool lockingMotion = false;
+    private float tVal = 0.0f;
+    private Vector3 startMotionPos, endMotionPos;
+    private Quaternion startMotionRot, endMotionRot;
+    [Space, SerializeField]
+    private float lockMotionTime = 0.75f;
+
     public delegate void MovementLockEvent();
-    public MovementLockEvent OnPlayerLock, OnPlayerUnlock;
-    public void LockPlayerToPosition(Vector3 worldPosition)
-    {
-        ToggleMenuMovement(true);
-        GameManager.player.transform.position = worldPosition;
-        if (null != OnPlayerLock)
-            OnPlayerLock();
-    }
+    public MovementLockEvent OnPlayerLocking, OnPlayerLock, OnPlayerUnlock;
     public void LockPlayerToPosition(Vector3 worldPosition, Quaternion worldRotation)
     {
+        lockingMotion = false;
         ToggleMenuMovement(true);
-        GameManager.player.transform.position = worldPosition;
-        GameManager.player.transform.rotation = worldRotation;
-        if (null != OnPlayerLock)
-            OnPlayerLock();
+        startMotionPos = playerRB.transform.position;
+        startMotionRot = playerRB.transform.rotation;
+        endMotionPos = worldPosition;
+        endMotionRot = worldRotation;
+        tVal = 0.0f;
+        lockingMotion = true;
+        if (null != OnPlayerLocking)
+            OnPlayerLocking();
     }
     public void UnlockPlayerPosition()
     {
+        lockingMotion = false;
         ToggleMenuMovement(false);
         if (null != OnPlayerUnlock)
             OnPlayerUnlock();
@@ -80,9 +77,9 @@ public class PlayerMenuController : MonoBehaviour
     }
 
     //start our movement coroutines depending on if we are in a menu scene
-    void OnLevelLoaded(Scene scene, LoadSceneMode mode)
+    private void OnLevelLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (playerRB == null)
+        if (null == playerRB)
             playerRB = GameManager.player.GetComponent<Rigidbody>();
 
         //if we're in options or hub world
@@ -124,50 +121,58 @@ public class PlayerMenuController : MonoBehaviour
 
         StopAllCoroutines();
 
-        if (gamepadEnabled && inAMenu)
-            StartCoroutine(ControllerCoroutine());
-        else if (inAMenu)
-            StartCoroutine(GyroCoroutine());
+        if (inAMenu)
+            if (gamepadEnabled)
+                StartCoroutine(ControllerCoroutine());
+            else
+                StartCoroutine(GyroCoroutine());
     }
 
     //make sure we don't start rotating up/down or start to roll
-    void ClampRotation()
+    private void ClampRotation()
     {
-        if (playerRB.rotation.eulerAngles.z != 0f || playerRB.rotation.eulerAngles.x != 0f)
-            playerRB.rotation = Quaternion.Euler(new Vector3(0f, playerRB.rotation.eulerAngles.y, 0f));
+        if (0.0f != playerRB.rotation.eulerAngles.z || 0.0f != playerRB.rotation.eulerAngles.x)
+            playerRB.rotation = Quaternion.Euler(new Vector3(0.0f, playerRB.rotation.eulerAngles.y, 0.0f));
     }
 
-    //let our right thumbstick control the camera if there is no HMD present
-    void DebugCameraRotation()
+    //let our right joystick control the camera if there is no HMD present
+    private void DebugCameraRotation()
     {
         if (!VRDevice.isPresent)
         {
             float cameraPitch = cameraContainerTransform.eulerAngles.x + -Input.GetAxis("RVertical") * debugCameraSpeed;
             float cameraYaw = cameraContainerTransform.eulerAngles.y + Input.GetAxis("RHorizontal") * debugCameraSpeed;
 
-            cameraContainerTransform.rotation = (Quaternion.Euler(new Vector3(cameraPitch, cameraYaw, 0f)));
+            cameraContainerTransform.rotation = (Quaternion.Euler(new Vector3(cameraPitch, cameraYaw, 0.0f)));
         }
     }
 
-    void ApplyHoverForce()
+    private void ApplyHoverForce()
     {
         Ray ray = new Ray(playerRB.position, -playerRB.transform.up);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, hoverHeight))
         {
-            float proportionalHeight = (hoverHeight - hit.distance) * inverseHoverHeight;
+            float proportionalHeight = (hoverHeight - hit.distance) * hoverHeight;
             Vector3 appliedHoverForce = Vector3.up * proportionalHeight * hoverForce;
             playerRB.AddForce(appliedHoverForce, ForceMode.Acceleration);
         }
     }
-
+    private bool spawnLock = false;
     private void ReturnToSpawnPoint()
     {
-        playerRB.transform.position = GameManager.instance.levelScript.spawnPoints[1].position;
+        lockingMotion = false;
+        startMotionPos = playerRB.transform.position;
+        startMotionRot = endMotionRot = playerRB.transform.rotation;
+        endMotionPos = GameManager.instance.levelScript.spawnPoints[SceneManager.GetActiveScene().buildIndex].position;
+        tVal = 0.0f;
+        spawnLock = true;
+        playerRB.GetComponent<CapsuleCollider>().enabled = false;
+        lockingMotion = true;
     }
 
-    IEnumerator ControllerCoroutine()
+    private IEnumerator ControllerCoroutine()
     {
         yield return new WaitForFixedUpdate();
 
@@ -179,43 +184,43 @@ public class PlayerMenuController : MonoBehaviour
         {
             if (Input.GetButtonDown("XBox Start") || Input.GetKeyDown(KeyCode.R))
                 ReturnToSpawnPoint();
-            playerRB.AddRelativeForce(0f, 0f, Input.GetAxis("LVertical") * controllerForwardSpeed);
-            playerRB.AddRelativeTorque(0f, Input.GetAxis("LHorizontal") * controllerTurnSpeed, 0f);
+            playerRB.AddRelativeForce(0.0f, 0.0f, Input.GetAxis("LVertical") * controllerForwardSpeed);
+            playerRB.AddRelativeTorque(0.0f, Input.GetAxis("LHorizontal") * controllerTurnSpeed, 0.0f);
         }
 
         StartCoroutine(ControllerCoroutine());
     }
 
     //helper function
-    void GyroApplyDeadZone()
+    private void GyroApplyDeadZone()
     {
         //leaning forward
-        if (pitch > 0f)
+        if (pitch > 0.0f)
         {
             if (pitch < gyroPitchDeadZone)
-                pitch = 0f;
+                pitch = 0.0f;
         }
         else
         {
             if (pitch > -gyroPitchDeadZone)
-                pitch = 0f;
+                pitch = 0.0f;
         }
 
 
         //leaning left
-        if (yaw > 0f)
+        if (yaw > 0.0f)
         {
             if (yaw < gyroYawDeadZone)
-                yaw = 0f;
+                yaw = 0.0f;
         }
         else
         {
             if (yaw > -gyroYawDeadZone)
-                yaw = 0f;
+                yaw = 0.0f;
         }
     }
 
-    IEnumerator GyroCoroutine()
+    private IEnumerator GyroCoroutine()
     {
         yield return new WaitForFixedUpdate();
 
@@ -224,7 +229,7 @@ public class PlayerMenuController : MonoBehaviour
         ApplyHoverForce();
 
         pitch = (float)gyro.rollAngle * Mathf.Rad2Deg;
-        yaw = (float)gyro.pitchAngle * Mathf.Rad2Deg * -1f;
+        yaw = (float)gyro.pitchAngle * Mathf.Rad2Deg * -1.0f;
 
         GyroApplyDeadZone();
 
@@ -233,8 +238,8 @@ public class PlayerMenuController : MonoBehaviour
 
         if (!menuMovementIsLocked)
         {
-            playerRB.AddRelativeForce(0f, 0f, pitch);
-            playerRB.AddRelativeTorque(0f, yaw, 0f);
+            playerRB.AddRelativeForce(0.0f, 0.0f, pitch);
+            playerRB.AddRelativeTorque(0.0f, yaw, 0.0f);
         }
 
         StartCoroutine(GyroCoroutine());
@@ -250,4 +255,29 @@ public class PlayerMenuController : MonoBehaviour
         SceneManager.sceneLoaded -= OnLevelLoaded;
     }
 
+    private void Update()
+    {
+        if (lockingMotion)
+        {
+            tVal += Time.deltaTime / lockMotionTime;
+            if (tVal >= 1.0f)
+            {
+                playerRB.transform.position = endMotionPos;
+                playerRB.transform.rotation = endMotionRot;
+                lockingMotion = false;
+                if (spawnLock)
+                {
+                    playerRB.GetComponent<CapsuleCollider>().enabled = true;
+                    spawnLock = false;
+                }
+                else if (null != OnPlayerLock)
+                    OnPlayerLock();
+            }
+            else
+            {
+                playerRB.transform.position = Vector3.Lerp(startMotionPos, endMotionPos, tVal);
+                playerRB.transform.rotation = Quaternion.Slerp(startMotionRot, endMotionRot, tVal);
+            }
+        }
+    }
 }

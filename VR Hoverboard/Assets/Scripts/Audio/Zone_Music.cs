@@ -1,46 +1,42 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Zone_Music : MonoBehaviour {
+public class Zone_Music : MonoBehaviour
+{
     public AudioClip zone_music;
     private BackgroundMusic reference;
-    public float const_vol;
-    public bool is_changing = false;
+    private float const_vol;
+    private bool is_changing = false;
 
     void Update()
     {
-        if (reference == null)
+        if (null == reference)
         {
-            this.enabled = false;
+            enabled = false;
         }
-       else if (is_changing == true)
+        else if (is_changing)
         {
             if (reference.audioSource.volume > 0.0)
             {
-                reference.audioSource.volume -= const_vol / 10;
+                reference.audioSource.volume -= const_vol * 0.1f;
             }
-             else if (reference.audioSource.volume <= 0.0)
-           {
-            float timestamp = reference.audioSource.time;
-            reference.audioSource.Stop();
-            reference.audioSource.clip = zone_music;
-            reference.audioSource.Play();
-            reference.audioSource.time = timestamp;
-            is_changing = false;
+            else
+            {
+                float timestamp = reference.audioSource.time;
+                reference.audioSource.Stop();
+                reference.audioSource.clip = zone_music;
+                reference.audioSource.Play();
+                reference.audioSource.time = timestamp;
+                is_changing = false;
             }
         }
-       
-        else if(reference.audioSource.volume < const_vol && is_changing == false)
+        else if (reference.audioSource.volume < const_vol)
         {
-            
-            reference.audioSource.volume += const_vol / 10; ;
+            reference.audioSource.volume += const_vol * 0.1f;
         }
-       else if (reference.audioSource.volume > const_vol)
+        if (reference.audioSource.volume >= const_vol)
         {
-            Debug.Log("Setting Volume");
             reference.audioSource.volume = const_vol;
-            this.enabled = false;
+            enabled = false;
         }
     }
 
@@ -48,10 +44,10 @@ public class Zone_Music : MonoBehaviour {
     {
         reference = GameObject.FindGameObjectWithTag("Music").GetComponent<BackgroundMusic>();
         const_vol = reference.audioSource.volume;
-        if (other.gameObject.layer == 9 && reference.audioSource.clip.name != zone_music.name)
+        if (9 == other.gameObject.layer && reference.audioSource.clip.name != zone_music.name)
         {
-            this.enabled = true;
-            Debug.Log("changing music to: " + zone_music.name);
+            enabled = true;
+            BuildDebugger.WriteLine("changing music to: " + zone_music.name);
             is_changing = true;
         }
     }
@@ -62,7 +58,6 @@ public class Zone_Music : MonoBehaviour {
         {
             reference.audioSource.volume = const_vol;
         }
-        this.enabled = false;
+        enabled = false;
     }
-
 }

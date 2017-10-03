@@ -34,14 +34,14 @@ public class EnterMainMenuButton : SelectedObject
         gameObject.transform.Rotate(0.0f, Time.deltaTime * rotationSpeed, 0.0f);
     }
 
-    protected override void selectedFuntion()
+    protected override void SelectedFunction()
     {
-        base.selectedFuntion();
+        base.SelectedFunction();
         meshRenderer.material = hoverMat;
     }
-    protected override void deSelectedFunction()
+    protected override void DeselectedFunction()
     {
-        base.deSelectedFunction();
+        base.DeselectedFunction();
         meshRenderer.material = noHoverMat;
     }
     public override void selectSuccessFunction()
@@ -52,7 +52,7 @@ public class EnterMainMenuButton : SelectedObject
             if (null != lockTransform)
                 GameManager.player.GetComponent<PlayerMenuController>().LockPlayerToPosition(lockTransform.position, lockTransform.rotation);
             else
-                GameManager.player.GetComponent<PlayerMenuController>().LockPlayerToPosition(GameManager.player.transform.position);
+                GameManager.player.GetComponent<PlayerMenuController>().LockPlayerToPosition(GameManager.player.transform.position, GameManager.player.transform.rotation);
             menuSystem.mainTab.EnableButtons();
             gameObject.SetActive(false);
         }

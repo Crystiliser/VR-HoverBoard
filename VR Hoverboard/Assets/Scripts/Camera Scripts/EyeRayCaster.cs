@@ -8,61 +8,46 @@ public class EyeRayCaster : MonoBehaviour
     public bool canSelect = true;
 
     //object for selection purposes;
-    GameObject preObj = null;
-    GameObject curObj = null;
+    private GameObject preObj = null;
+    private GameObject curObj = null;
 
     public Camera myCam;
-    reticle reticleScript;
-    RaycastHit hit;
+    private reticle reticleScript = null;
+    private RaycastHit hit;
 
-    [SerializeField] float rayCheckLength = 50.0f;
-    //float debugRayDrawLength;
+    [SerializeField]
+    private float rayCheckLength = 50.0f;
 
-    [SerializeField] LayerMask layerMask;
+    [SerializeField]
+    private LayerMask layerMask;
 
-    // Use this for initialization
-    void Start ()
+    private void Start ()
     {
         reticleScript = GetComponent<reticle>();
-        //debugRayDrawLength = rayCheckLength;
 	}
 	
-	// Update is called once per frame
-	void Update ()
+	private void Update ()
     {
-        Vector3 fwd = myCam.transform.TransformDirection(Vector3.forward);
-        //Debug.DrawRay(myCam.transform.position, fwd * debugRayDrawLength);
-
         preObj = curObj;
-
-        //if ray collides with something
-        if (Physics.Raycast(myCam.transform.position, fwd, out hit, rayCheckLength, layerMask))
+        if (Physics.Raycast(myCam.transform.position, myCam.transform.TransformDirection(Vector3.forward), out hit, rayCheckLength, layerMask))
         {
             if (canSelect)
             {
                 curObj = hit.collider.gameObject;
-                curObj.GetComponent<SelectedObject>().selected(reticleScript);
+                curObj.GetComponent<SelectedObject>().Selected(reticleScript);
             }
         }
-        //if ray doesnt collide with anything
         else
-        {
-            //reticleScript.setPosition(hit, false);
             curObj = null;
-        }
         if (preObj != null && preObj != curObj)
-        {
-            preObj.GetComponent<SelectedObject>().deSelected();
-        }
+            preObj.GetComponent<SelectedObject>().Deselected();
     }
 
-    void SetSelectionLock(bool locked)
+    private void SetSelectionLock(bool locked)
     {
         canSelect = !locked;
         if (curObj != null)
-        {
-            curObj.GetComponent<SelectedObject>().deSelected();
-        }
+            curObj.GetComponent<SelectedObject>().Deselected();
     }
 
     public void OnEnable()

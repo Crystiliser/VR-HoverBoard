@@ -134,6 +134,7 @@ public class BoardManager : MonoBehaviour
         pfc.UpdateFanPercentage();
     }
 
+
     //helper function
     void GamepadBoardSelect(out ManagerClasses.PlayerMovementVariables pmv)
     {
