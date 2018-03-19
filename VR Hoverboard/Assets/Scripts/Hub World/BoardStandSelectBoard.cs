@@ -1,46 +1,54 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
 public class BoardStandSelectBoard : SelectedObject
 {
-    BoardManager boardManager;
-
-    //our material and board types are stored in the BoardStandScript
-    BoardStandProperties selectionVariables;
-
-    Material renderMat = null;
-
+    [SerializeField] private Transform boardCopy = null;
+    private static Transform playerBoard = null;
+    private BoardStandProperties selectionVariables = null;
+    private bool animationRunning = false;
+    private float tVal = 0.0f, invAnimationTime = 1.0f;
+    private Vector3 startPosition, startScale;
+    private Quaternion startRotation, ogLocalRot;
     new private void Start()
     {
         base.Start();
-        boardManager = GameManager.instance.boardScript;
-
         selectionVariables = GetComponentInParent<BoardStandProperties>();
-        renderMat = gameObject.GetComponent<Renderer>().material;
-        //Color boardColor = renderMat.color;
-        renderMat.SetColor("_EmissionColor", Color.black);
-        //renderMat.DisableKeyword("_EMISSION");
+        ogLocalRot = boardCopy.localRotation;
+        if (null == playerBoard)
+            playerBoard = GameManager.player.GetComponentInChildren<BoardSelector>(true).CurrentBoard;
     }
-
-    protected override void SelectedFunction()
+    protected override void SuccessFunction()
     {
-        base.SelectedFunction();
-        //renderMat.EnableKeyword("_EMISSION");
-        renderMat.SetColor("_EmissionColor", Color.white);
+        boardCopy.localPosition = Vector3.zero;
+        boardCopy.localRotation = ogLocalRot;
+        boardCopy.localScale = Vector3.one;
+        boardCopy.parent = null;
+        startPosition = boardCopy.position;
+        startRotation = boardCopy.rotation;
+        startScale = boardCopy.lossyScale;
+        boardCopy.gameObject.SetActive(true);
+        invAnimationTime = 1.0f / WaitTime;
+        tVal = 0.0f;
+        animationRunning = true;
     }
-    protected override void DeselectedFunction()
+    private void OnEndAnimation()
     {
-        base.DeselectedFunction();
-        //renderMat.DisableKeyword("_EMISSION");
-        renderMat.SetColor("_EmissionColor", Color.black);
-    }
-    override public void selectSuccessFunction()
-    {
-        //set the player board to one of our pre-defined boards
-        boardManager.BoardSelect(selectionVariables.boardType);
-
+        animationRunning = false;
+        boardCopy.parent = transform;
+        boardCopy.gameObject.SetActive(false);
+        BoardManager.BoardSelect(selectionVariables.boardType);
         EventManager.OnCallBoardMenuEffects();
     }
-
+    new private void Update()
+    {
+        base.Update();
+        if (animationRunning)
+        {
+            boardCopy.position = Vector3.Lerp(startPosition, playerBoard.position, tVal);
+            boardCopy.rotation = Quaternion.Slerp(startRotation, playerBoard.rotation, tVal);
+            boardCopy.localScale = Vector3.Lerp(startScale, playerBoard.lossyScale, tVal);
+            tVal += Time.deltaTime * invAnimationTime;
+            if (tVal >= 1.0f)
+                OnEndAnimation();
+        }
+    }
 }

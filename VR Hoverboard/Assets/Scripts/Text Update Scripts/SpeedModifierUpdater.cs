@@ -1,41 +1,40 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
-
 public class SpeedModifierUpdater : MonoBehaviour
 {
-    PlayerGameplayController pgc;
-    TextMeshProUGUI element;
-
-    int display;
-
-    void Start()
+#if DEBUGGER
+    private PlayerGameplayController pgc = null;
+    private TextMeshProUGUI element = null;
+#endif
+    private void Start()
     {
+#if DEBUGGER
         pgc = GetComponentInParent<PlayerGameplayController>();
         element = GetComponent<TextMeshProUGUI>();
-        element.color = new Color(1, 0, 1);
+        element.color = Color.magenta;
+#else
+        Destroy(GetComponent<TextMeshProUGUI>());
+        Destroy(this);
+#endif
     }
-
-    void Update()
+#if DEBUGGER
+    private void Update()
     {
-        display = (int)pgc.DebugSpeedIncrease;
-
-        if (display != 0)
+        int display = (int)pgc.DebugSpeedIncrease;
+        if (0 != display)
         {
             if (!element.IsActive())
                 element.enabled = true;
-
             element.SetText(display.ToString());
         }
         else
         {
             if (element.IsActive())
             {
-                element.text = "";
+                element.SetText("");
                 element.enabled = false;
             }
         }
     }
+#endif
 }

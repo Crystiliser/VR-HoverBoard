@@ -1,22 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
-
 public class altimeterTextUpdater : MonoBehaviour
 {
-    TextMeshProUGUI element;
-    Transform playerTransform;
-
-	void Start ()
+    private TextMeshProUGUI element = null;
+    private Transform playerTransform = null;
+    private void Start()
     {
-        playerTransform = GameManager.player.GetComponent<Transform>();
+        playerTransform = GameManager.player.transform;
         element = GetComponent<TextMeshProUGUI>();
-	}
-	
-	void Update ()
+    }
+    private void Update()
     {
-        string textToWrite = " " + (int)playerTransform.position.y + " ";
-        element.SetText(textToWrite);       
-	}
+        element.SetText(" " + (int)playerTransform.position.y + " ");
+    }
 }

@@ -1,182 +1,119 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
+using Xander.NullConversion;
 public class RingScoreScript : MonoBehaviour
 {
-    [System.Serializable]
-    public class ScoreMultipliers
-    {
-        public float speedMultiplier;
-        public float consecutiveMultiplier;
-        public float consecutiveIncreaseAmount;
-
-        public ScoreMultipliers(float sMul, float crMul, float crInAmt) { speedMultiplier = sMul; consecutiveMultiplier = crMul; consecutiveIncreaseAmount = crInAmt; }
-    }
-
-    //static ring effect settings
-    static int prevPositionInOrder;
-    static int prevConsecutiveCount;
-    static int consecutiveCount;
-    static bool effectsStopped;
-
-    public static ScoreMultipliers multipliers = new ScoreMultipliers(1.5f, 1f, 0.25f);
-    playerCollisionSoundEffects pColSoundEffects;
-    PlayerArrowHandler pArrowHandler;
-    ScoreManager scoreManager;
-
-    RingProperties rp;
-    System.Type capsuleType;
-
-    float originalCrInAmt;
-    float totalMultiplier;
-
-    bonusTimeTextUpdater bonusTimeText;
-
-    ParticleSystem hitEffect;
-
-
+    private float consecutiveMultiplier = 0.25f;
+    private Position_Text_script Player_position = null;
+    private const float consecutiveIncreaseAmount = 0.25f;
+    private static readonly System.Type capsuleType = typeof(CapsuleCollider);
+    private static int prevPositionInOrder = -1, prevConsecutiveCount = 0, consecutiveCount = 0;
+    private static bool effectsStopped = true;
+    private playerCollisionSoundEffects pColSoundEffects = null;
+    private PlayerArrowHandler pArrowHandler = null;
+    private RingProperties rp = null;
+    private float originalCrInAmt = 0.25f;
+    private bonusTimeTextUpdater bonusTimeText = null;
+    private ParticleSystem hitEffect = null;
+    private PlayerRespawn respawnScript = null;
+    [SerializeField] private GameObject portaleffect = null;
+    public static void ResetPrevPositionInOrder() => prevPositionInOrder = 0;
     private void Start()
     {
-        scoreManager = GameManager.instance.scoreScript;
         pColSoundEffects = GameManager.player.GetComponent<playerCollisionSoundEffects>();
         pArrowHandler = GameManager.player.GetComponent<PlayerArrowHandler>();
         rp = GetComponent<RingProperties>();
-        capsuleType = typeof(CapsuleCollider);
-        bonusTimeText = GameManager.player.GetComponentInChildren<bonusTimeTextUpdater>();
+        bonusTimeText = GameManager.player.GetComponentInChildren<bonusTimeTextUpdater>(true);
         hitEffect = GetComponentInChildren<ParticleSystem>();
-
-        //set our prevRingInOrder to -1, so we don't apply a consecutive score multiplier for the very first ring we go through in a scene
+        respawnScript = GameManager.player.GetComponent<PlayerRespawn>();
         prevPositionInOrder = -1;
         consecutiveCount = 0;
+        Player_position = FindObjectOfType<Position_Text_script>();
         effectsStopped = true;
-
-        originalCrInAmt = multipliers.consecutiveIncreaseAmount;
+        originalCrInAmt = consecutiveIncreaseAmount;
+        if (rp.LastRingInScene && (GameMode.Race == GameManager.gameMode || GameMode.Cursed == GameManager.gameMode) && GameManager.MaxLap > 1)
+            portaleffect.SetActive(false);
     }
-
-    void IncreaseScore()
+    private void IncreaseScore()
     {
-        totalMultiplier = 1f;
-
+        float totalMultiplier = ScoreManager.score_multiplier;
         if (prevPositionInOrder + 1 == rp.positionInOrder)
         {
-            //use our consecutive multiplier if this ring comes immediately after the previous one
-            totalMultiplier += multipliers.consecutiveMultiplier;
-
-            //then increase by our increase amount
-            multipliers.consecutiveMultiplier += multipliers.consecutiveIncreaseAmount;
-
+            totalMultiplier += consecutiveMultiplier;
+            consecutiveMultiplier += consecutiveIncreaseAmount;
             ++consecutiveCount;
         }
         else
         {
-            //otherwise, reset the consecutiveMultiplier
-            multipliers.consecutiveMultiplier = originalCrInAmt;
+            totalMultiplier = 1;
+            consecutiveMultiplier = originalCrInAmt;
             consecutiveCount = prevConsecutiveCount = 0;
-
             if (!effectsStopped)
             {
                 effectsStopped = true;
-                EventManagerRings.OnStopRingPulse();
+                EventManager.StopRingPulse();
             }
         }
-
-        scoreManager.score += (int)(scoreManager.baseScorePerRing * totalMultiplier);
-        //print("Score is now: " + scoreManager.score);
+        ScoreManager.score += (int)(ScoreManager.baseScorePerRing * totalMultiplier);
+        ScoreManager.score_multiplier = totalMultiplier;
     }
-
-    void UpdateRingEffects()
+    private void UpdateRingEffects()
     {
         if (consecutiveCount > prevConsecutiveCount)
         {
-            switch (consecutiveCount)
+            if (effectsStopped && 3 == consecutiveCount)
             {
-                case 3:
-                    if (effectsStopped)
-                    {
-                        effectsStopped = false;
-                        EventManagerRings.OnStartRingPulse();
-                    }
-                    break;
-                case 5:
-                    break;
-                case 10:
-                    break;
-                default:
-                    break;
+                effectsStopped = false;
+                EventManager.StartRingPulse();
             }
-
             prevConsecutiveCount = consecutiveCount;
         }
     }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetType() == capsuleType && other.tag == "Player")
+        if (null != respawnScript && !respawnScript.IsRespawning && capsuleType == other.GetType() && "Player" == other.tag)
         {
             pArrowHandler.UpdatePlayerHUDPointer(rp);
 
             if (rp.positionInOrder > prevPositionInOrder)
             {
-                //update our scoreManager values
-                scoreManager.prevRingBonusTime = rp.bonusTime;
-                scoreManager.prevRingTransform = rp.transform;
-                scoreManager.ringHitCount++;
-
-                if (GameManager.instance.gameMode.currentMode == GameModes.Cursed)
+                ScoreManager.prevRingBonusTime = rp.bonusTime;
+                ScoreManager.prevRingTransform = rp.transform;
+                ++ScoreManager.ringHitCount;
+                if (GameMode.Cursed == GameManager.gameMode)
                 {
-                    switch (GameManager.instance.boardScript.currentBoardSelection)
-                    {
-                        case BoardType.Original:
-                            rp.bonusTime += rp.timeBonusOriginal;
-                            break;
-                        case BoardType.MachI:
-                            rp.bonusTime += rp.timeBonusMachI;
-                            break;
-                        case BoardType.MachII:
-                            rp.bonusTime += rp.timeBonusMachII;
-                            break;
-                        case BoardType.MachIII:
-                            rp.bonusTime += rp.timeBonusMachIII;
-                            break;
-                        case BoardType.Custom:
-                            break;
-                        default:
-                            break;
-                    }
-                    GameManager.instance.roundTimer.IncreaseTimeLeft(rp.bonusTime);
+                    RoundTimer.IncreaseTimeLeft(rp.bonusTime);
                     bonusTimeText.play((rp.bonusTime).ToString("n2"));
                 }
-
                 IncreaseScore();
                 UpdateRingEffects();
                 pColSoundEffects.PlayRingClip(gameObject);
-
-                if (hitEffect != null)
-                {
-                    //Debug.Log("Hit a Ring");
-                    hitEffect.Play();
-                    //MeshRenderer tmp = hitEffect.GetComponentInParent<MeshRenderer>();
-                    hitEffect.GetComponentInParent<MeshRenderer>().gameObject.GetComponent<Renderer>().enabled = false ;
-                }
-                else
-                    print("HIT EFFECT NULL");
-
+                hitEffect.ConvertNull()?.Play();
                 prevPositionInOrder = rp.positionInOrder;
             }
-
-            if (rp.lastRingInScene)
+            if (rp.LastRingInScene)
             {
-                scoreManager.levelEnd();
-
-                //update our scoreManager values
-                scoreManager.prevRingBonusTime = 0f;
-                scoreManager.prevRingTransform = GameManager.instance.levelScript.spawnPoints[rp.nextScene];
-                scoreManager.ringHitCount = 0;
-
                 prevPositionInOrder = -1;
-
-                EventManager.OnTriggerTransition(rp.nextScene);
+                if (GameMode.Race != GameManager.gameMode && GameMode.Cursed != GameManager.gameMode)
+                {
+                    ScoreManager.LevelEnd();
+                    ScoreManager.prevRingBonusTime = 0.0f;
+                    ScoreManager.prevRingTransform = LevelManager.SpawnPoints[rp.nextScene];
+                    ScoreManager.ringHitCount = 0;
+                    prevPositionInOrder = -1;
+                    EventManager.OnTriggerTransition(rp.nextScene);
+                }
+                else if (RingProperties.laptext.CurrLap == GameManager.MaxLap)
+                {
+                    ScoreManager.LevelEnd();
+                    ScoreManager.prevRingBonusTime = 0.0f;
+                    ScoreManager.prevRingTransform = LevelManager.SpawnPoints[rp.nextScene];
+                    ScoreManager.ringHitCount = 0;
+                    prevPositionInOrder = -1;
+                    RingProperties.laptext.CurrLap = 1;
+                    EventManager.OnTriggerTransition(rp.nextScene);
+                }
+                else if ((++RingProperties.laptext.CurrLap) == GameManager.MaxLap)
+                    portaleffect.SetActive(true);
             }
         }
     }

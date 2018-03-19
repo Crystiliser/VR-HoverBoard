@@ -1,62 +1,40 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
+using Xander.Debugging;
+using Xander.NullConversion;
 public class EyeRayCaster : MonoBehaviour
 {
-    //turns on or off the ability to do selecting
-    public bool canSelect = true;
-
-    //object for selection purposes;
-    private GameObject preObj = null;
-    private GameObject curObj = null;
-
-    public Camera myCam;
-    private reticle reticleScript = null;
+    [SerializeField] private bool canSelect = true;
+    [SerializeField] private Camera myCam = null;
+    public float rayCheckLength = 12.0f;
+    [SerializeField] private LayerMask layerMask;
+    private GameObject preObj = null, curObj = null;
+    private ReticleScript reticleScript = null;
     private RaycastHit hit;
-
-    [SerializeField]
-    private float rayCheckLength = 50.0f;
-
-    [SerializeField]
-    private LayerMask layerMask;
-
-    private void Start ()
-    {
-        reticleScript = GetComponent<reticle>();
-	}
-	
-	private void Update ()
+    private void Start() => reticleScript = GetComponent<ReticleScript>();
+    private void Update()
     {
         preObj = curObj;
         if (Physics.Raycast(myCam.transform.position, myCam.transform.TransformDirection(Vector3.forward), out hit, rayCheckLength, layerMask))
         {
             if (canSelect)
             {
-                curObj = hit.collider.gameObject;
-                curObj.GetComponent<SelectedObject>().Selected(reticleScript);
+                SelectedObject selected = hit.collider.GetNullConvertedComponent<SelectedObject>();
+                if (null == selected)
+                    Debug.LogWarning("Missing SelectedObject script on object in the " + SelectedObject.LAYERNAME + " layer. (" + hit.collider.gameObject.HierarchyPath() + ")" + this.Info(), this);
+                curObj = selected?.gameObject;
+                selected?.Selected(reticleScript);
             }
         }
         else
             curObj = null;
-        if (preObj != null && preObj != curObj)
-            preObj.GetComponent<SelectedObject>().Deselected();
+        if (preObj != curObj)
+            preObj.ConvertNull()?.GetComponent<SelectedObject>().Deselected();
     }
-
     private void SetSelectionLock(bool locked)
     {
         canSelect = !locked;
-        if (curObj != null)
-            curObj.GetComponent<SelectedObject>().Deselected();
+        curObj.ConvertNull()?.GetComponent<SelectedObject>().Deselected();
     }
-
-    public void OnEnable()
-    {
-        EventManager.OnSelectionLock += SetSelectionLock;
-    }
-
-    public void OnDisable()
-    {
-        EventManager.OnSelectionLock -= SetSelectionLock;
-    }
+    private void OnEnable() => EventManager.OnSelectionLock += SetSelectionLock;
+    private void OnDisable() => EventManager.OnSelectionLock -= SetSelectionLock;
 }

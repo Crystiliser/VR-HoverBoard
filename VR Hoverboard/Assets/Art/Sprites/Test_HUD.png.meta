@@ -1,9 +1,127 @@
 fileFormatVersion: 2
 guid: 633222a3acd11304e91b415743f7dd5b
-timeCreated: 1505925261
+timeCreated: 1506973544
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Test_HUD_0
+    21300002: Test_HUD_1
+    21300004: Test_HUD_2
+    21300006: Test_HUD_3
+    21300008: Test_HUD_4
+    21300010: Test_HUD_5
+    21300012: Test_HUD_6
+    21300014: Test_HUD_7
+    21300016: Test_HUD_8
+    21300018: Test_HUD_9
+    21300020: Test_HUD_10
+    21300022: Test_HUD_11
+    21300024: Test_HUD_12
+    21300026: Test_HUD_13
+    21300028: Test_HUD_14
+    21300030: Test_HUD_15
+    21300032: Test_HUD_16
+    21300034: Test_HUD_17
+    21300036: Test_HUD_18
+    21300038: Test_HUD_19
+    21300040: Test_HUD_20
+    21300042: Test_HUD_21
+    21300044: Test_HUD_22
+    21300046: Test_HUD_23
+    21300048: Test_HUD_24
+    21300050: Test_HUD_25
+    21300052: Test_HUD_26
+    21300054: Test_HUD_27
+    21300056: Test_HUD_28
+    21300058: Test_HUD_29
+    21300060: Test_HUD_30
+    21300062: Test_HUD_31
+    21300064: Test_HUD_32
+    21300066: Test_HUD_33
+    21300068: Test_HUD_34
+    21300070: Test_HUD_35
+    21300072: Test_HUD_36
+    21300074: Test_HUD_37
+    21300076: Test_HUD_38
+    21300078: Test_HUD_39
+    21300080: Test_HUD_40
+    21300082: Test_HUD_41
+    21300084: Test_HUD_42
+    21300086: Test_HUD_43
+    21300088: Test_HUD_44
+    21300090: Test_HUD_45
+    21300092: Test_HUD_46
+    21300094: Test_HUD_47
+    21300096: Test_HUD_48
+    21300098: Test_HUD_49
+    21300100: Test_HUD_50
+    21300102: Test_HUD_51
+    21300104: Test_HUD_52
+    21300106: Test_HUD_53
+    21300108: Test_HUD_54
+    21300110: Test_HUD_55
+    21300112: Test_HUD_56
+    21300114: Test_HUD_57
+    21300116: Test_HUD_58
+    21300118: Test_HUD_59
+    21300120: Test_HUD_60
+    21300122: Test_HUD_61
+    21300124: Test_HUD_62
+    21300126: Test_HUD_63
+    21300128: Test_HUD_64
+    21300130: Test_HUD_65
+    21300132: Test_HUD_66
+    21300134: Test_HUD_67
+    21300136: Test_HUD_68
+    21300138: Test_HUD_69
+    21300140: Test_HUD_70
+    21300142: Test_HUD_71
+    21300144: Test_HUD_72
+    21300146: Test_HUD_73
+    21300148: Test_HUD_74
+    21300150: Test_HUD_75
+    21300152: Test_HUD_76
+    21300154: Test_HUD_77
+    21300156: Test_HUD_78
+    21300158: Test_HUD_79
+    21300160: Test_HUD_80
+    21300162: Test_HUD_81
+    21300164: Test_HUD_82
+    21300166: Test_HUD_83
+    21300168: Test_HUD_84
+    21300170: Test_HUD_85
+    21300172: Test_HUD_86
+    21300174: Test_HUD_87
+    21300176: Test_HUD_88
+    21300178: Test_HUD_89
+    21300180: Test_HUD_90
+    21300182: Test_HUD_91
+    21300184: Test_HUD_92
+    21300186: Test_HUD_93
+    21300188: Test_HUD_94
+    21300190: Test_HUD_95
+    21300192: Test_HUD_96
+    21300194: Test_HUD_97
+    21300196: Test_HUD_98
+    21300198: Test_HUD_99
+    21300200: Test_HUD_100
+    21300202: Test_HUD_101
+    21300204: Test_HUD_102
+    21300206: Test_HUD_103
+    21300208: Test_HUD_104
+    21300210: Test_HUD_105
+    21300212: Test_HUD_106
+    21300214: Test_HUD_107
+    21300216: Test_HUD_108
+    21300218: Test_HUD_109
+    21300220: Test_HUD_110
+    21300222: Test_HUD_111
+    21300224: Test_HUD_112
+    21300226: Test_HUD_113
+    21300228: Test_HUD_114
+    21300230: Test_HUD_115
+    21300232: Test_HUD_116
+    21300234: Test_HUD_117
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -39,12 +157,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  alignment: 9
+  spritePivot: {x: 0.23121452, y: 0.36872098}
+  spriteBorder: {x: 137, y: 145, z: 513, w: 283}
   spritePixelsToUnits: 100
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -73,7 +191,1659 @@ TextureImporter:
     overridden: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Test_HUD_0
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 462
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_1
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 453
+        width: 597
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_2
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 480
+        width: 13
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_3
+      rect:
+        serializedVersion: 2
+        x: 345
+        y: 480
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_4
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 411
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_5
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 411
+        width: 5
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_6
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 411
+        width: 5
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_7
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 411
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_8
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 411
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_9
+      rect:
+        serializedVersion: 2
+        x: 188
+        y: 411
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_10
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 411
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_11
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 409
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_12
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 411
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_13
+      rect:
+        serializedVersion: 2
+        x: 220
+        y: 411
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_14
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 411
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_15
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 411
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_16
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 411
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_17
+      rect:
+        serializedVersion: 2
+        x: 346
+        y: 411
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_18
+      rect:
+        serializedVersion: 2
+        x: 357
+        y: 411
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_19
+      rect:
+        serializedVersion: 2
+        x: 364
+        y: 411
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_20
+      rect:
+        serializedVersion: 2
+        x: 371
+        y: 411
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_21
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 411
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_22
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 411
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_23
+      rect:
+        serializedVersion: 2
+        x: 517
+        y: 411
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_24
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 411
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_25
+      rect:
+        serializedVersion: 2
+        x: 541
+        y: 411
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_26
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 411
+        width: 5
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_27
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 391
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_28
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 391
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_29
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 391
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_30
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 391
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_31
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 391
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_32
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 398
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_33
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 398
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_34
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 398
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_35
+      rect:
+        serializedVersion: 2
+        x: 346
+        y: 398
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_36
+      rect:
+        serializedVersion: 2
+        x: 357
+        y: 398
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_37
+      rect:
+        serializedVersion: 2
+        x: 364
+        y: 398
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_38
+      rect:
+        serializedVersion: 2
+        x: 371
+        y: 398
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_39
+      rect:
+        serializedVersion: 2
+        x: 501
+        y: 396
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_40
+      rect:
+        serializedVersion: 2
+        x: 508
+        y: 396
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_41
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 396
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_42
+      rect:
+        serializedVersion: 2
+        x: 526
+        y: 396
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_43
+      rect:
+        serializedVersion: 2
+        x: 537
+        y: 396
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_44
+      rect:
+        serializedVersion: 2
+        x: 544
+        y: 396
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_45
+      rect:
+        serializedVersion: 2
+        x: 551
+        y: 396
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_46
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 385
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_47
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 385
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_48
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 385
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_49
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 273
+        width: 11
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_50
+      rect:
+        serializedVersion: 2
+        x: 357
+        y: 385
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_51
+      rect:
+        serializedVersion: 2
+        x: 364
+        y: 385
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_52
+      rect:
+        serializedVersion: 2
+        x: 371
+        y: 385
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_53
+      rect:
+        serializedVersion: 2
+        x: 507
+        y: 376
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_54
+      rect:
+        serializedVersion: 2
+        x: 538
+        y: 376
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_55
+      rect:
+        serializedVersion: 2
+        x: 516
+        y: 376
+        width: 5
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_56
+      rect:
+        serializedVersion: 2
+        x: 523
+        y: 376
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_57
+      rect:
+        serializedVersion: 2
+        x: 545
+        y: 376
+        width: 5
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_58
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 373
+        width: 5
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_59
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 353
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_60
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 353
+        width: 5
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_61
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 337
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_62
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 316
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_63
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 353
+        width: 12
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_64
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 337
+        width: 4
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_65
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 337
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_66
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 353
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_67
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 353
+        width: 5
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_68
+      rect:
+        serializedVersion: 2
+        x: 483
+        y: 324
+        width: 24
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_69
+      rect:
+        serializedVersion: 2
+        x: 508
+        y: 324
+        width: 9
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_70
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 361
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_71
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 324
+        width: 37
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_72
+      rect:
+        serializedVersion: 2
+        x: 526
+        y: 361
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_73
+      rect:
+        serializedVersion: 2
+        x: 537
+        y: 361
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_74
+      rect:
+        serializedVersion: 2
+        x: 544
+        y: 361
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_75
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 316
+        width: 5
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_76
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 313
+        width: 5
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_77
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 300
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_78
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 300
+        width: 4
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_79
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 300
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_80
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 146
+        width: 40
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_81
+      rect:
+        serializedVersion: 2
+        x: 490
+        y: 240
+        width: 9
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_82
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 256
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_83
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 256
+        width: 5
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_84
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 253
+        width: 5
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_85
+      rect:
+        serializedVersion: 2
+        x: 532
+        y: 256
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_86
+      rect:
+        serializedVersion: 2
+        x: 546
+        y: 240
+        width: 6
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_87
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 240
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_88
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 240
+        width: 5
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_89
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 237
+        width: 5
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_90
+      rect:
+        serializedVersion: 2
+        x: 532
+        y: 240
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_91
+      rect:
+        serializedVersion: 2
+        x: 490
+        y: 224
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_92
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 224
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_93
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 224
+        width: 5
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_94
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 221
+        width: 5
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_95
+      rect:
+        serializedVersion: 2
+        x: 532
+        y: 224
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_96
+      rect:
+        serializedVersion: 2
+        x: 546
+        y: 224
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_97
+      rect:
+        serializedVersion: 2
+        x: 490
+        y: 208
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_98
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 208
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_99
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 208
+        width: 5
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_100
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 205
+        width: 5
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_101
+      rect:
+        serializedVersion: 2
+        x: 532
+        y: 208
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_102
+      rect:
+        serializedVersion: 2
+        x: 546
+        y: 208
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_103
+      rect:
+        serializedVersion: 2
+        x: 490
+        y: 192
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_104
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 192
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_105
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 192
+        width: 5
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_106
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 189
+        width: 5
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_107
+      rect:
+        serializedVersion: 2
+        x: 532
+        y: 192
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_108
+      rect:
+        serializedVersion: 2
+        x: 546
+        y: 192
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_109
+      rect:
+        serializedVersion: 2
+        x: 490
+        y: 176
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_110
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 176
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_111
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 176
+        width: 5
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_112
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 173
+        width: 5
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_113
+      rect:
+        serializedVersion: 2
+        x: 532
+        y: 176
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_114
+      rect:
+        serializedVersion: 2
+        x: 546
+        y: 176
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_115
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 134
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_116
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 134
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Test_HUD_117
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 134
+        width: 6
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
     outline: []
     physicsShape: []
   spritePackingTag: 

@@ -1,116 +1,54 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Spatial_full
 {
-    class Matrix3x3
+    public class Matrix3x3
     {
-        public double[,] matrix;
-        
-        
-        public Matrix3x3()
+        public double[,] matrix = new double[3, 3];
+        public Matrix3x3(
+            double e00, double e01, double e02,
+            double e10, double e11, double e12,
+            double e20, double e21, double e22)
         {
-            matrix = new double[3,3];
-            for (int i = 0; i < 3; i++)
-                for (int j = 0; j < 3; j++)
-                    matrix[i, j] = 0;
+            matrix[0, 0] = e00;
+            matrix[0, 1] = e01;
+            matrix[0, 2] = e02;
+            matrix[1, 0] = e10;
+            matrix[1, 1] = e11;
+            matrix[1, 2] = e12;
+            matrix[2, 0] = e20;
+            matrix[2, 1] = e21;
+            matrix[2, 2] = e22;
         }
-
         public Matrix3x3(Matrix3x3 otherMatrix)
         {
-            matrix = new double[3, 3];
-            for (int i = 0; i < 3; i++)
-                for (int j = 0; j < 3; j++)
-                    matrix[i, j] = otherMatrix.matrix[i, j];
+            matrix[0, 0] = otherMatrix.matrix[0, 0];
+            matrix[0, 1] = otherMatrix.matrix[0, 1];
+            matrix[0, 2] = otherMatrix.matrix[0, 2];
+            matrix[1, 0] = otherMatrix.matrix[1, 0];
+            matrix[1, 1] = otherMatrix.matrix[1, 1];
+            matrix[1, 2] = otherMatrix.matrix[1, 2];
+            matrix[2, 0] = otherMatrix.matrix[2, 0];
+            matrix[2, 1] = otherMatrix.matrix[2, 1];
+            matrix[2, 2] = otherMatrix.matrix[2, 2];
         }
-
-        //Static Matrix Operations
         public static SpVector3 Multiply(SpVector3 A, Matrix3x3 B)
         {
-            SpVector3 ret = new SpVector3(0, 0, 0);
-            ret.X = B.matrix[0, 0] * A.X + B.matrix[1, 0] * A.Y + B.matrix[2, 0] * A.Z;
-            ret.Y = B.matrix[0, 1] * A.X + B.matrix[1, 1] * A.Y + B.matrix[2, 1] * A.Z;
-            ret.Z = B.matrix[0, 2] * A.X + B.matrix[1, 2] * A.Y + B.matrix[2, 2] * A.Z;
-            return ret;
+            return new SpVector3(
+                B.matrix[0, 0] * A.X + B.matrix[1, 0] * A.Y + B.matrix[2, 0] * A.Z,
+                B.matrix[0, 1] * A.X + B.matrix[1, 1] * A.Y + B.matrix[2, 1] * A.Z,
+                B.matrix[0, 2] * A.X + B.matrix[1, 2] * A.Y + B.matrix[2, 2] * A.Z);
         }
-
         public static Matrix3x3 Multiply(Matrix3x3 A, Matrix3x3 B)
         {
-            Matrix3x3 ret = new Matrix3x3();
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    ret.matrix[i, j] = B.matrix[i, 0] * A.matrix[0, j] + B.matrix[i, 1] * A.matrix[1, j] + B.matrix[i, 2] * A.matrix[2, j];
-                }
-            }
-            return ret;
-        }
-
-        public static Matrix3x3 Multiply(double A, Matrix3x3 B)
-        {
-            Matrix3x3 ret = new Matrix3x3();
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    ret.matrix[i, j] = A * B.matrix[i,j];
-                }
-            }
-            return ret;
-        }
-
-        //this normalizes the column vectors in a rotation matrix to unit length
-        public static Matrix3x3 Normalize(Matrix3x3 A)
-        {
-            Matrix3x3 ret = new Matrix3x3();
-            for (int i = 0; i < 3; i++)
-            {
-                double length = Math.Sqrt(A.matrix[i, 0] * A.matrix[i, 0] + A.matrix[i, 1] * A.matrix[i, 1] + A.matrix[i, 2] * A.matrix[i, 2]);
-                ret.matrix[i, 0] = A.matrix[i, 0] / length;
-                ret.matrix[i, 1] = A.matrix[i, 1] / length;
-                ret.matrix[i, 2] = A.matrix[i, 2] / length;
-            }
-            return ret;
-        }
-
-        public static Matrix3x3 Transpose(Matrix3x3 A)
-        {
-            Matrix3x3 ret = new Matrix3x3();
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    ret.matrix[i, j] = A.matrix[j, i];
-                }
-            }
-            return ret;
-        }
-
-        public static Matrix3x3 Add(Matrix3x3 A, Matrix3x3 B)
-        {
-            Matrix3x3 ret = new Matrix3x3();
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    ret.matrix[i, j] = A.matrix[j, i] + B.matrix[i, j];
-                }
-            }
-            return ret;
-        }
-
-        public static double Determinant(Matrix3x3 A)
-        {
-            double ret = 0;
-            ret += A.matrix[0, 0] * A.matrix[1, 1] * A.matrix[2, 2];
-            ret += A.matrix[1, 0] * A.matrix[2, 1] * A.matrix[0, 2];
-            ret += A.matrix[2, 0] * A.matrix[0, 1] * A.matrix[1, 2];
-            ret -= A.matrix[2, 0] * A.matrix[1, 1] * A.matrix[0, 2];
-            ret -= A.matrix[1, 0] * A.matrix[0, 1] * A.matrix[2, 2];
-            ret -= A.matrix[0, 0] * A.matrix[2, 1] * A.matrix[1, 2];
-            return ret;
+            return new Matrix3x3(
+                B.matrix[0, 0] * A.matrix[0, 0] + B.matrix[0, 1] * A.matrix[1, 0] + B.matrix[0, 2] * A.matrix[2, 0],
+                B.matrix[0, 0] * A.matrix[0, 1] + B.matrix[0, 1] * A.matrix[1, 1] + B.matrix[0, 2] * A.matrix[2, 1],
+                B.matrix[0, 0] * A.matrix[0, 2] + B.matrix[0, 1] * A.matrix[1, 2] + B.matrix[0, 2] * A.matrix[2, 2],
+                B.matrix[1, 0] * A.matrix[0, 0] + B.matrix[1, 1] * A.matrix[1, 0] + B.matrix[1, 2] * A.matrix[2, 0],
+                B.matrix[1, 0] * A.matrix[0, 1] + B.matrix[1, 1] * A.matrix[1, 1] + B.matrix[1, 2] * A.matrix[2, 1],
+                B.matrix[1, 0] * A.matrix[0, 2] + B.matrix[1, 1] * A.matrix[1, 2] + B.matrix[1, 2] * A.matrix[2, 2],
+                B.matrix[2, 0] * A.matrix[0, 0] + B.matrix[2, 1] * A.matrix[1, 0] + B.matrix[2, 2] * A.matrix[2, 0],
+                B.matrix[2, 0] * A.matrix[0, 1] + B.matrix[2, 1] * A.matrix[1, 1] + B.matrix[2, 2] * A.matrix[2, 1],
+                B.matrix[2, 0] * A.matrix[0, 2] + B.matrix[2, 1] * A.matrix[1, 2] + B.matrix[2, 2] * A.matrix[2, 2]);
         }
     }
 }

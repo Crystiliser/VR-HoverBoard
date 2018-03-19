@@ -1,54 +1,36 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
 public class playerCollisionSoundEffects : MonoBehaviour
 {
-    private AudioSource source;
-    PlayerRespawn respawnScript;
-
-    [SerializeField] AudioClip wallCollision = null;
-    [SerializeField] AudioClip ringCollision = null;
-    [SerializeField] AudioClip portalEnter = null;
-    private float const_vol;
-
-    GameObject prevRingObject;
-
-    void Start()
+    private AudioSource source = null;
+    private PlayerRespawn respawnScript = null;
+    [SerializeField] private AudioClip wallCollision = null;
+    [SerializeField] private AudioClip ringCollision = null;
+    [SerializeField] private AudioClip portalEnter = null;
+    private float const_vol = 1.0f;
+    private GameObject prevRingObject = null;
+    private void Start()
     {
         source = GetComponent<AudioSource>();
-
-        respawnScript = gameObject.GetComponent<PlayerRespawn>();
-
+        respawnScript = GetComponent<PlayerRespawn>();
         prevRingObject = null;
-
-        AudioLevels.Instance.OnSfxVolumeChange += UpdateVolume;
+        AudioManager.OnSfxVolumeChanged += UpdateVolume;
         UpdateVolume();
         const_vol = source.volume;
     }
-
-    void Update()
+    private void Update()
     {
-        if (source.isPlaying && source.clip.name != "HitThud")
-        {
-            source.volume = const_vol - (Mathf.Abs((source.clip.length / 2) - source.time) * const_vol);
-        }
+        if (source.isPlaying && "HitThud" != source.clip.name)
+            source.volume = const_vol * (1.0f - Mathf.Abs(source.clip.length * 0.5f - source.time));
         else
-        {
-            const_vol = AudioLevels.Instance.SfxVolume;
-            source.volume = const_vol;
-        }
+            source.volume = const_vol = AudioManager.SfxVolume;
     }
-    private void OnDestroy() { try { AudioLevels.Instance.OnSfxVolumeChange -= UpdateVolume; } catch { } }
-    private void UpdateVolume() { source.volume = AudioLevels.Instance.SfxVolume; }
-    
+    private void OnDestroy() => AudioManager.OnSfxVolumeChanged -= UpdateVolume;
+    private void UpdateVolume() => source.volume = AudioManager.SfxVolume;
     private void OnCollisionEnter(Collision collision)
     {
         source.clip = wallCollision;
         source.Play();
     }
-
-    //called by RingEffects.cs
     public void PlayRingClip(GameObject ringObject)
     {
         if (ringObject != prevRingObject && !respawnScript.IsRespawning)
@@ -58,14 +40,12 @@ public class playerCollisionSoundEffects : MonoBehaviour
             prevRingObject = ringObject;
         }
     }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Portal" && !respawnScript.IsRespawning)
+        if (!respawnScript.IsRespawning && "Portal" == other.gameObject.tag)
         {
             source.clip = portalEnter;
             source.Play();
         }
     }
-
 }

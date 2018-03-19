@@ -1,54 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-
 public enum particleEffectTypesEnum { rain, snow, crash, sandDust, other }
-
 public class effectController : MonoBehaviour
 {
-    public ParticleSystem[] triggerParticleEffects;
-
-    public ParticleSystem dustField;
-
-    private void OnEnable()
+    [SerializeField] private ParticleSystem[] triggerParticleEffects = null;
+    [SerializeField] private ParticleSystem dustField = null;
+    private const int particleLayer = 9;
+    public ParticleSystem[] TriggerParticleEffects => triggerParticleEffects;
+    public ParticleSystem DustField => dustField;
+    private void OnEnable() => SceneManager.sceneLoaded += dustFieldActivation;
+    private void OnDisable() => SceneManager.sceneLoaded -= dustFieldActivation;
+    private void Start() => disableAllEffects();
+    private void dustFieldActivation(Scene scene, LoadSceneMode loadMode)
     {
-        SceneManager.sceneLoaded += dustFieldActivation;
+        if (SceneManager.GetActiveScene().buildIndex >= LevelManager.LevelBuildOffset)
+            dustField.Play();
+        else
+            dustField.Stop();
     }
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= dustFieldActivation;
-    }
-
-
-    // Use this for initialization
-    void Start()
-    {
-        disableAllEffects();
-    }
-
-    void dustFieldActivation(Scene scene, LoadSceneMode loadMode)
-    {
-        switch (SceneManager.GetActiveScene().buildIndex)
-        {
-            case 0:
-                dustField.Stop();
-                break;
-            case 1:
-                dustField.Stop();
-                break;
-            default:
-                dustField.Play();
-                //dustField.Pause();
-                break;
-        }
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 9)
+        if (particleLayer == other.gameObject.layer)
         {
-            particleEffectTypesEnum theEffect = other.gameObject.GetComponent<effectZoneProperties>().myEffect;
+            particleEffectTypesEnum theEffect = other.GetComponent<effectZoneProperties>().myEffect;
             switch (theEffect)
             {
                 case particleEffectTypesEnum.rain:
@@ -61,30 +35,24 @@ public class effectController : MonoBehaviour
                     triggerParticleEffects[3].Play();
                     break;
                 case particleEffectTypesEnum.other:
-                    for (int i = 0; i < triggerParticleEffects.Length; i++)
-                    {
-                        triggerParticleEffects[i].Play();
-                    }
+                    foreach (ParticleSystem triggerParticleEffect in triggerParticleEffects)
+                        triggerParticleEffect.Play();
                     break;
                 default:
                     break;
             }
         }
     }
-
     public void disableAllEffects()
     {
-        for (int i = 0; i < triggerParticleEffects.Length; i++)
-        {
-            triggerParticleEffects[i].Stop();
-        }
+        foreach (ParticleSystem triggerParticleEffect in triggerParticleEffects)
+            triggerParticleEffect.Stop();
     }
-
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == 9)
+        if (particleLayer == other.gameObject.layer)
         {
-            particleEffectTypesEnum theEffect = other.gameObject.GetComponent<effectZoneProperties>().myEffect;
+            particleEffectTypesEnum theEffect = other.GetComponent<effectZoneProperties>().myEffect;
             switch (theEffect)
             {
                 case particleEffectTypesEnum.rain:
@@ -97,10 +65,8 @@ public class effectController : MonoBehaviour
                     triggerParticleEffects[3].Stop();
                     break;
                 case particleEffectTypesEnum.other:
-                    for (int i = 0; i < triggerParticleEffects.Length; i++)
-                    {
-                        triggerParticleEffects[i].Stop();
-                    }
+                    foreach (ParticleSystem triggerParticleEffect in triggerParticleEffects)
+                        triggerParticleEffect.Stop();
                     break;
                 default:
                     break;

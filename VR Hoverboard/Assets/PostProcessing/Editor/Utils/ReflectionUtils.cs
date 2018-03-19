@@ -1,123 +1,94 @@
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
-
 namespace UnityEditor.PostProcessing
 {
+    using System.Collections.Generic;
+    using System.Linq.Expressions;
+    using System.Reflection;
+    using System.Text;
     public static class ReflectionUtils
     {
-        static Dictionary<KeyValuePair<object, string>, FieldInfo> s_FieldInfoFromPaths = new Dictionary<KeyValuePair<object, string>, FieldInfo>();
-
+        private static Dictionary<KeyValuePair<object, string>, FieldInfo> s_FieldInfoFromPaths = new Dictionary<KeyValuePair<object, string>, FieldInfo>();
         public static FieldInfo GetFieldInfoFromPath(object source, string path)
         {
             FieldInfo field = null;
-            var kvp = new KeyValuePair<object, string>(source, path);
-
+            KeyValuePair<object, string> kvp = new KeyValuePair<object, string>(source, path);
             if (!s_FieldInfoFromPaths.TryGetValue(kvp, out field))
             {
-                var splittedPath = path.Split('.');
-                var type = source.GetType();
-
-                foreach (var t in splittedPath)
+                string[] splittedPath = path.Split('.');
+                System.Type type = source.GetType();
+                foreach (string t in splittedPath)
                 {
                     field = type.GetField(t, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
-
-                    if (field == null)
+                    if (null == field)
                         break;
-
                     type = field.FieldType;
                 }
-
                 s_FieldInfoFromPaths.Add(kvp, field);
             }
-
             return field;
         }
-
-        public static string GetFieldPath<T, TValue>(Expression<Func<T, TValue>> expr)
+        public static string GetFieldPath<T, TValue>(Expression<System.Func<T, TValue>> expr)
         {
             MemberExpression me;
             switch (expr.Body.NodeType)
             {
                 case ExpressionType.Convert:
                 case ExpressionType.ConvertChecked:
-                    var ue = expr.Body as UnaryExpression;
-                    me = (ue != null ? ue.Operand : null) as MemberExpression;
+                    me = ((expr.Body as UnaryExpression)?.Operand) as MemberExpression;
                     break;
                 default:
                     me = expr.Body as MemberExpression;
                     break;
             }
-
-            var members = new List<string>();
-            while (me != null)
+            List<string> members = new List<string>();
+            while (null != me)
             {
                 members.Add(me.Member.Name);
                 me = me.Expression as MemberExpression;
             }
-
-            var sb = new StringBuilder();
-            for (int i = members.Count - 1; i >= 0; i--)
+            StringBuilder sb = new StringBuilder();
+            for (int i = members.Count - 1; i >= 0; --i)
             {
                 sb.Append(members[i]);
-                if (i > 0) sb.Append('.');
+                if (0 != i) sb.Append('.');
             }
-
             return sb.ToString();
         }
-
         public static object GetFieldValue(object source, string name)
         {
-            var type = source.GetType();
-
-            while (type != null)
+            System.Type type = source.GetType();
+            while (null != type)
             {
-                var f = type.GetField(name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
-                if (f != null)
+                FieldInfo f = type.GetField(name, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+                if (null != f)
                     return f.GetValue(source);
-
                 type = type.BaseType;
             }
-
             return null;
         }
-
-        public static object GetFieldValueFromPath(object source, ref Type baseType, string path)
+        public static object GetFieldValueFromPath(object source, ref System.Type baseType, string path)
         {
-            var splittedPath = path.Split('.');
+            string[] splittedPath = path.Split('.');
             object srcObject = source;
-
-            foreach (var t in splittedPath)
+            foreach (string t in splittedPath)
             {
-                var fieldInfo = baseType.GetField(t, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
-
-                if (fieldInfo == null)
+                FieldInfo fieldInfo = baseType.GetField(t, BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+                if (null == fieldInfo)
                 {
                     baseType = null;
                     break;
                 }
-
                 baseType = fieldInfo.FieldType;
                 srcObject = GetFieldValue(srcObject, t);
             }
-
-            return baseType == null
-                   ? null
-                   : srcObject;
+            return null == baseType ? null : srcObject;
         }
-
         public static object GetParentObject(string path, object obj)
         {
-            var fields = path.Split('.');
-
-            if (fields.Length == 1)
+            string[] fields = path.Split('.');
+            if (1 == fields.Length)
                 return obj;
-
-            var info = obj.GetType().GetField(fields[0], BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            FieldInfo info = obj.GetType().GetField(fields[0], BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             obj = info.GetValue(obj);
-
             return GetParentObject(string.Join(".", fields, 1, fields.Length - 1), obj);
         }
     }

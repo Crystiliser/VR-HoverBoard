@@ -8,7 +8,8 @@ public class arrowPointAtUpdater : MonoBehaviour
     public Transform[] thingsToLookAt;
     public RingProperties[] sortedRings;
     //[SerializeField] float angle;
-    GameObject player;
+    //GameObject player;
+    public Camera the_camera;
 
     [SerializeField] float angle;
 
@@ -20,17 +21,17 @@ public class arrowPointAtUpdater : MonoBehaviour
 
     private void Start()
     {
-        player = GameManager.player;
+        //player = GameManager.player;
         myself = GetComponent<Slider>();
     }
     private void Update()
     {
         if (currentlyLookingAt > 0 && currentlyLookingAt < thingsToLookAt.Length)
         {
-            Vector3 direction = thingsToLookAt[currentlyLookingAt].position - player.transform.position;
+            Vector3 direction = thingsToLookAt[currentlyLookingAt].position - the_camera.transform.position;
 
-            
-            angle = Vector3.SignedAngle(player.transform.forward, direction, Vector3.up);
+
+            angle = Vector3.SignedAngle(the_camera.transform.forward, direction, Vector3.up);
 
             if (angle < 90 && angle > 0)
             {
@@ -56,9 +57,10 @@ public class arrowPointAtUpdater : MonoBehaviour
             }
 
             myself.value = pointPosition;
+
             //Debug.DrawLine(referenceObject.transform.position, thingsToLookAt[currentlyLookingAt].position);
 
-            //Debug.DrawRay(player.transform.position, player.transform.forward * 100, Color.blue);
+            Debug.DrawRay(the_camera.transform.position, the_camera.transform.forward * 100, Color.blue);
         }
     }
 }

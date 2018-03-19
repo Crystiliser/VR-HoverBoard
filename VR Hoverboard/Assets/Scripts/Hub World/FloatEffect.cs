@@ -1,53 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
 public class FloatEffect : MonoBehaviour
 {
     public enum StartDirection { Up, Down };
-    public Transform objectTransform;
-
-    [Space]
-
-    public bool randomizeStartHeight = true;
-
-    float originalHeight;
-    float direction = 1f;
-
-    public StartDirection startDirection = StartDirection.Up;
-    public float floatDistance = 0.5f;
-    public float floatRate = 0.1f;
-
-    // Use this for initialization
-    void Start ()
+    [SerializeField] private Transform objectTransform;
+    [Space, SerializeField] private bool randomizeStartHeight = true;
+    [SerializeField] private StartDirection startDirection = StartDirection.Up;
+    [SerializeField] private float floatDistance = 0.5f, floatRate = 0.1f, rotateRate = 60.0f;
+    private float originalHeight = 0.0f, direction = 1.0f;
+    private void Start()
     {
         originalHeight = objectTransform.position.y;
-
         if (randomizeStartHeight)
-        {
-            float randomStartHeight = Random.Range(-floatDistance, floatDistance);
-            objectTransform.Translate(0f, randomStartHeight, 0f);
-        }
-
+            objectTransform.Translate(0.0f, Random.Range(-floatDistance, floatDistance), 0.0f, Space.World);
         if (startDirection != StartDirection.Up)
-            direction = -1f;
+            direction = -1.0f;
     }
-	
-	// Update is called once per frame
-	void Update ()
+    private void Update()
     {
-        if (direction > 0f)
+        if (direction > 0.0f)
         {
             if (!(objectTransform.position.y < originalHeight + floatDistance))
-                direction *= -1f;
+                direction = -direction;
         }
-        else
-        {
-            if (!(objectTransform.position.y > originalHeight - floatDistance))
-                direction *= -1f;
-        }
-
-        objectTransform.Translate(0f, Time.deltaTime * floatRate * direction, 0f);
+        else if (!(objectTransform.position.y > originalHeight - floatDistance))
+            direction = -direction;
+        objectTransform.Translate(0.0f, Time.deltaTime * floatRate * direction, 0.0f, Space.World);
+        objectTransform.Rotate(Vector3.up, rotateRate * Time.deltaTime, Space.World);
     }
-
 }

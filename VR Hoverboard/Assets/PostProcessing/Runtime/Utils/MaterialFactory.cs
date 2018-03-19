@@ -1,51 +1,31 @@
-using System;
-using System.Collections.Generic;
-
 namespace UnityEngine.PostProcessing
 {
-    using UnityObject = Object;
-
-    public sealed class MaterialFactory : IDisposable
+    using System.Collections.Generic;
+    public sealed class MaterialFactory : System.IDisposable
     {
-        Dictionary<string, Material> m_Materials;
-
-        public MaterialFactory()
-        {
-            m_Materials = new Dictionary<string, Material>();
-        }
-
+        private Dictionary<string, Material> m_Materials = new Dictionary<string, Material>();
         public Material Get(string shaderName)
         {
             Material material;
-
             if (!m_Materials.TryGetValue(shaderName, out material))
             {
-                var shader = Shader.Find(shaderName);
-
-                if (shader == null)
-                    throw new ArgumentException(string.Format("Shader not found ({0})", shaderName));
-
+                Shader shader = Shader.Find(shaderName);
+                if (null == shader)
+                    throw new System.ArgumentException(string.Format("Shader not found ({0})", shaderName));
                 material = new Material(shader)
                 {
                     name = string.Format("PostFX - {0}", shaderName.Substring(shaderName.LastIndexOf("/") + 1)),
                     hideFlags = HideFlags.DontSave
                 };
-
                 m_Materials.Add(shaderName, material);
             }
-
             return material;
         }
-
         public void Dispose()
         {
-            var enumerator = m_Materials.GetEnumerator();
+            Dictionary<string, Material>.Enumerator enumerator = m_Materials.GetEnumerator();
             while (enumerator.MoveNext())
-            {
-                var material = enumerator.Current.Value;
-                GraphicsUtils.Destroy(material);
-            }
-
+                GraphicsUtils.Destroy(enumerator.Current.Value);
             m_Materials.Clear();
         }
     }

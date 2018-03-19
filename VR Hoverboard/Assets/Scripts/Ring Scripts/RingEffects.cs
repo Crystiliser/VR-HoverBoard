@@ -1,38 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
 public class RingEffects : MonoBehaviour
 {
-    Animator anim;
-
-    int pulseHash = Animator.StringToHash("PulseActive");
-
-    void Start()
+    private Animator anim = null;
+    private static readonly int pulseHash = Animator.StringToHash("PulseActive");
+    private void Start()
     {
         anim = GetComponent<Animator>();
     }
-
-    public void StartRingPulse()
+    private void StartRingPulse()
     {
         anim.SetBool(pulseHash, true);
     }
-
-    public void StopRingPulse()
+    private void StopRingPulse()
     {
         anim.SetBool(pulseHash, false);
     }
-
     private void OnEnable()
     {
-        EventManagerRings.StartRingPulse += StartRingPulse;
-        EventManagerRings.StopRingPulse += StopRingPulse;
+        EventManager.OnStartRingPulse += StartRingPulse;
+        EventManager.OnStopRingPulse += StopRingPulse;
     }
-
     private void OnDisable()
     {
-        EventManagerRings.StartRingPulse -= StartRingPulse;
-        EventManagerRings.StopRingPulse -= StopRingPulse;
+        EventManager.OnStartRingPulse -= StartRingPulse;
+        EventManager.OnStopRingPulse -= StopRingPulse;
     }
-       
 }

@@ -26,7 +26,7 @@ namespace UnityEngine.PostProcessing
             {
                 return model.enabled
                        && model.settings.bloom.intensity > 0f
-                       && !context.interrupted;
+                       && !context.Interrupted;
             }
         }
 
@@ -42,8 +42,8 @@ namespace UnityEngine.PostProcessing
 
             // Do bloom on a half-res buffer, full-res doesn't bring much and kills performances on
             // fillrate limited platforms
-            var tw = context.width / 2;
-            var th = context.height / 2;
+            var tw = context.Width / 2;
+            var th = context.Height / 2;
 
             // Blur buffer format
             // TODO: Extend the use of RGBM to the whole chain for mobile platforms
@@ -58,7 +58,7 @@ namespace UnityEngine.PostProcessing
             int iterations = Mathf.Clamp(logh_i, 1, k_MaxPyramidBlurLevel);
 
             // Uupdate the shader properties
-            float lthresh = bloom.thresholdLinear;
+            float lthresh = bloom.ThresholdLinear;
             material.SetFloat(Uniforms._Threshold, lthresh);
 
             float knee = lthresh * bloom.softKnee + 1e-5f;

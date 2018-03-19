@@ -129,7 +129,7 @@ namespace UnityEditor.PostProcessing
             m_RangeX = 5f;
             m_RangeY = 2f;
 
-            m_GraphThreshold = bloom.settings.bloom.thresholdLinear;
+            m_GraphThreshold = bloom.settings.bloom.ThresholdLinear;
             m_GraphKnee = bloom.settings.bloom.softKnee * m_GraphThreshold + 1e-5f;
 
             // Intensity is capped to prevent sampling errors

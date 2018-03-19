@@ -1,31 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
 public class HubPortalRotator : MonoBehaviour
 {
-    [SerializeField] float rotateRate = 30f;
-    [SerializeField] float distanceFromCenter = 28f;
-    Transform t;
-
-    float rotateAmount;
-	
-	void Awake ()
+    [SerializeField] private float rotateRate = 30.0f, distanceFromCenter = 28.0f;
+    private float rotateAmount = 0.0f;
+    private void Start()
     {
-        t = GetComponent<Transform>();
-
-        rotateAmount = 360f / t.childCount;
-
-        for (int i = 0; i < t.childCount; i++)
+        rotateAmount = 360.0f / transform.childCount;
+        for (int i = 0; i < transform.childCount; ++i)
         {
-            t.GetChild(i).Rotate(Vector3.up * i * rotateAmount);
-            t.GetChild(i).Translate(Vector3.back * distanceFromCenter, Space.Self);
-            t.GetChild(i).LookAt(t);
+            transform.GetChild(i).Rotate(Vector3.up * i * rotateAmount);
+            transform.GetChild(i).Translate(Vector3.back * distanceFromCenter, Space.Self);
+            transform.GetChild(i).LookAt(transform);
         }
-	}
-	
-	void Update ()
+    }
+    private void Update()
     {
-        t.Rotate(Vector3.up, rotateRate * Time.deltaTime);
-	}
+        transform.Rotate(Vector3.up, rotateRate * Time.deltaTime);
+    }
 }

@@ -1,22 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-//parent this gameobject to any rings that you want to rotate
-//don't forget to set the individual ring properties and positions
+﻿using UnityEngine;
 public class RingRotator : MonoBehaviour
 {
-    Transform anchor;
-    [SerializeField] float rotateRate = 5f;
-
-    void Start()
-    {
-        anchor = GetComponent<Transform>();
-    }
-
-    void Update()
-    {
-        if (rotateRate != 0f)
-            anchor.Rotate(Vector3.forward, Time.deltaTime * rotateRate);
-    }
+    [SerializeField] private float rotateRate = 5.0f;
+    private void Update()
+    { transform.Rotate(0.0f, 0.0f, Time.deltaTime * rotateRate); }
 }

@@ -1,68 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-
 public class ringPathMaker : MonoBehaviour
 {
-    bool drawLine = true;
-    //needs to be at least 4
-    [SerializeField]
-    Stack<Vector3> controlPointsStack = new Stack<Vector3>();
-
-    CatmullRomSplineDrawn pathDrawer = new CatmullRomSplineDrawn();
-
-    LineRenderer myself;
-    
-
-    //line or loop
-    public bool isLooping = false;
-
-
-
-    private void Start()
+    [SerializeField] private Stack<Vector3> controlPointsStack = new Stack<Vector3>();
+    private bool drawLine = true;
+    private AI_Race_Mode_Script Race_AI;
+    private void TogglePath(bool isOn) => drawLine = isOn;
+    private void OnEnable()
     {
-        myself = GetComponent<LineRenderer>();
-    }
-    
-
-    #region EventStuff
-    void togglePath(bool isOn)
-    {
-        drawLine = isOn;
-    }
-    private void Awake()
-    {
-        EventManager.OnSetRingPath += togglePath;
+        EventManager.OnSetRingPath += TogglePath;
+        Race_AI = FindObjectOfType<AI_Race_Mode_Script>();
     }
     private void OnDisable()
     {
-        EventManager.OnSetRingPath -= togglePath;
+        EventManager.OnSetRingPath -= TogglePath;
     }
-
-    #endregion
-
-
-    //sets up array before we even do the catmull stuff, then does the actual drawing once at the very end
-    public void init(Transform[] array)
+    public void Init(Transform[] array)
     {
+        LineRenderer lineRenderer = GetComponentInChildren<LineRenderer>();
         if (drawLine)
         {
-            //push back the first ring in the array 
-            //twice because we dont want to do looping
             controlPointsStack.Push(array[0].position);
             controlPointsStack.Push(array[0].position);
-            int firstDuplicate = 0;
+            int firstDuplicate = 0, duplicateNum = 0, lastRing = 0;
             bool foundDuplicate = false;
-            int duplicateNum = 0;
-            int lastRing = 0;
-
-            RingProperties theRing = array[0].GetComponent<RingProperties>();
-            //loop through the arary pushing back every ring that isnt tagged dupicate
-            //if it is a dulicate find one of the rings and only push back that one
-            for (int i = 1; i < array.Length; i++)
+            RingProperties theRing;
+            for (int i = 1; i < array.Length; ++i)
             {
-                theRing = array[i].gameObject.GetComponent<RingProperties>();
-                if (theRing.duplicatePosition)
+                theRing = array[i].GetComponent<RingProperties>();
+                if (theRing.DuplicatePosition)
                 {
                     if (!foundDuplicate)
                     {
@@ -90,13 +56,31 @@ public class ringPathMaker : MonoBehaviour
                 }
             }
             controlPointsStack.Push(array[lastRing].position);
-
-            //actual drawing stuff
-            Vector3[] finalPoints = pathDrawer.makePath(controlPointsStack.ToArray());
-
-            myself.positionCount = finalPoints.Length;
-            myself.SetPositions(finalPoints);
+            Vector3[] finalPoints = CatmullRomSplineDrawn.MakePath(controlPointsStack.ToArray());
+            if (null != Race_AI)
+                Race_AI.Ring_path = finalPoints;
+            lineRenderer.positionCount = finalPoints.Length;
+            lineRenderer.SetPositions(finalPoints);
         }
     }
-
+}
+public static class CatmullRomSplineDrawn
+{
+    public static Vector3[] MakePath(Vector3[] points)
+    {
+        Stack<Vector3> finalPoints = new Stack<Vector3>();
+        Vector3 a, b, c;
+        for (int i = 1; i < points.Length - 2; ++i)
+        {
+            a = (points[i] - points[i + 1]) * 3.0f - points[i - 1] + points[i + 2];
+            b = points[i - 1] + points[i - 1] - points[i] * 5.0f + points[i + 1] * 4.0f - points[i + 2];
+            c = points[i + 1] - points[i - 1];
+            finalPoints.Push(a * 0.004f + b * 0.02f + c * 0.1f + points[i]);
+            finalPoints.Push(a * 0.032f + b * 0.08f + c * 0.2f + points[i]);
+            finalPoints.Push(a * 0.108f + b * 0.18f + c * 0.3f + points[i]);
+            finalPoints.Push(a * 0.256f + b * 0.32f + c * 0.4f + points[i]);
+            finalPoints.Push((a + b + c) * 0.5f + points[i]);
+        }
+        return finalPoints.ToArray();
+    }
 }

@@ -1,56 +1,37 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-
 public class ExitPortalScript : MonoBehaviour
 {
-    Image theFadeObj;
-
-    System.Type boxCollider;
-    PlayerMenuController pmc;
-
+    private Renderer theFadeObj = null;
+    private static readonly System.Type boxCollider = typeof(CapsuleCollider);
+    private PlayerMenuController pmc = null;
+    private const float fadeTime = 0.8f;
     private void Start()
     {
-        boxCollider = typeof(UnityEngine.CapsuleCollider);
         pmc = GameManager.player.GetComponent<PlayerMenuController>();
+        theFadeObj = GameManager.player.GetComponentInChildren<counterRotater>().GetComponent<Renderer>();
     }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetType() == boxCollider && other.gameObject.tag == "Board")
+        if (boxCollider == other.GetType() && "Board" == other.gameObject.tag)
         {
             pmc.ToggleMenuMovement(true);
-
-            theFadeObj = GameObject.FindGameObjectWithTag("FadeCover").GetComponent<Image>();
             StartCoroutine(ExitGameCoroutine());
         }
     }
-
-    IEnumerator ExitGameCoroutine()
+    private IEnumerator ExitGameCoroutine()
     {
-        float timeIntoFade = 0f;
-        float fadeTime = 0.8f;
-        float alpha = theFadeObj.color.a;
-
+        float timeIntoFade = 0.0f;
         while (timeIntoFade < fadeTime)
         {
             timeIntoFade += Time.deltaTime;
-
-            alpha = timeIntoFade / fadeTime;
-            alpha = Mathf.Clamp01(alpha);
-
-            theFadeObj.material.color = new Color(0f, 0f, 0f, alpha);
-
+            theFadeObj.material.SetFloat("_AlphaValue", Mathf.Clamp01(timeIntoFade / fadeTime));
             yield return null;
         }
-
-        SaveLoader.save();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
         Application.Quit();
-
-        //in case we're in the editor
-        yield return new WaitForSeconds(1f);
-        pmc.ToggleMenuMovement(false);
-        theFadeObj.material.color = new Color(0f, 0f, 0f, 0f);
+#endif
     }
 }

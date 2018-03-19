@@ -1,68 +1,46 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
-
 public class TimerTextUpdateScript : MonoBehaviour
 {
-    ManagerClasses.RoundTimer roundTimer;
-
-    TextMeshProUGUI element;
-    bool textIsRed;
-    float timeToTurnTextRed;
-
-    Color originalTextColor;
-    GameManager gameManager;
-
-	void Start ()
+    private TextMeshProUGUI element = null;
+    private bool textIsRed = false;
+    private float timeToTurnTextRed = 2.0f;
+    private Color originalTextColor;
+    private string textToWrite = "TIMER BROKE";
+    private void Start()
     {
-        gameManager = GameManager.instance;
-        roundTimer = gameManager.roundTimer;
-        element = gameObject.GetComponent<TextMeshProUGUI>();
-
+        element = GetComponent<TextMeshProUGUI>();
         textIsRed = false;
-        timeToTurnTextRed = 2f;
+        timeToTurnTextRed = 2.0f;
         originalTextColor = element.color;
     }
-	
-	void Update ()
+    private void Update()
     {
-        string textToWrite = "TIMER BROKE";
-        switch (gameManager.gameMode.currentMode)
+        switch (GameManager.gameMode)
         {
-            case GameModes.Continuous:
-
-                textToWrite = " " + roundTimer.TimeInLevel.ToString("n2") + " ";
-
+            case GameMode.Continuous:
+                textToWrite = " " + RoundTimer.timeInLevel.ToString("n2") + " ";
                 break;
-
-            case GameModes.Cursed:
-
-                if (!textIsRed && roundTimer.TimeLeft < timeToTurnTextRed)
+            case GameMode.Cursed:
+                if (!textIsRed && RoundTimer.timeLeft < timeToTurnTextRed)
                 {
-                    element.color = new Color(1f, 0f, 0f, 1f);
+                    element.color = Color.red;
                     textIsRed = true;
                 }
-                else if (textIsRed && roundTimer.TimeLeft > timeToTurnTextRed)
+                else if (textIsRed && RoundTimer.timeLeft > timeToTurnTextRed)
                 {
                     element.color = originalTextColor;
                     textIsRed = false;
                 }
-
-                textToWrite = " " + roundTimer.TimeLeft.ToString("n2") + " ";
-
+                textToWrite = " " + RoundTimer.timeLeft.ToString("n2") + " ";
                 break;
-
-            case GameModes.Free:
-
-                textToWrite = " " + roundTimer.TimeInLevel.ToString("n2") + " ";
-
+            case GameMode.Free:
+                textToWrite = " " + RoundTimer.timeInLevel.ToString("n2") + " ";
                 break;
-
-            default:
+            case GameMode.Race:
+                textToWrite = " " + RoundTimer.timeInLevel.ToString("n2") + " ";
                 break;
         }
-
         element.SetText(textToWrite);
-	}
+    }
 }

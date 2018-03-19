@@ -1,246 +1,227 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-public enum BoardType { Original, MachI, MachII, MachIII, Custom }
-
+public enum BoardType { Original, MachI, MachII, MachIII }
 public class BoardManager : MonoBehaviour
 {
-    [HideInInspector] public SpatialData gyro;
-
-    PlayerGameplayController pgc;
-    PlayerMenuController pmc;
-    PlayerFanController pfc;
-    MeshRenderer boardMR;
-
-    public bool debugSpeedEnabled = false;
-    [HideInInspector] public bool gamepadEnabled = false;
-
-    //store our current board selection
-    public BoardType currentBoardSelection = BoardType.MachI;
-    [SerializeField] Material[] boardMaterials;
-
-    [Space]
-    public ManagerClasses.PlayerMovementVariables customGamepadMovementVariables = new ManagerClasses.PlayerMovementVariables();
-    public ManagerClasses.PlayerMovementVariables customGyroMovementVariables = new ManagerClasses.PlayerMovementVariables();
-
-    //use this instead of Awake() so that we can control the execution order through the GameManager
-    public void SetupBoardManager(GameObject p)
+    public static SpatialData gyro = null;
+#if DEBUGGER
+    public static bool debugSpeedEnabled = false;
+#endif
+    public static bool gamepadEnabled = false;
+    public static BoardType currentBoardSelection = BoardType.Original;
+    private static BoardSelector boardSelector = null;
+    private static PlayerGameplayController pgc = null;
+    private static PlayerMenuController pmc = null;
+    private static PlayerFanController pfc = null;
+    public void SetupBoardManager()
     {
-        //set our controls type based off of if the gyro is connected
         StartCoroutine(DetectGyroCoroutine());
-
-        pgc = p.GetComponent<PlayerGameplayController>();
-        pmc = p.GetComponent<PlayerMenuController>();
-        pfc = p.GetComponent<PlayerFanController>();
-
-        GameObject g = p.GetComponentInChildren<BoardRollEffect>().gameObject;
-        boardMR = g.GetComponent<MeshRenderer>();
-
+        pgc = GameManager.player.GetComponent<PlayerGameplayController>();
+        pmc = GameManager.player.GetComponent<PlayerMenuController>();
+        pfc = GameManager.player.GetComponent<PlayerFanController>();
+        boardSelector = GameManager.player.GetComponentInChildren<BoardSelector>(true);
         pgc.SetupGameplayControllerScript();
         pmc.SetupMenuControllerScript();
         pfc.SetupFanControllerScript();
-
-        currentBoardSelection = (BoardType)PlayerPrefs.GetInt("BoardSelection", (int)currentBoardSelection);
-        PlayerPrefs.SetInt("BoardSelection", (int)currentBoardSelection);
         BoardSelect(currentBoardSelection);
-
+#if DEBUGGER
         if (debugSpeedEnabled)
             pgc.StartDebugSpeedControls();
+#endif
     }
-
-    IEnumerator DetectGyroCoroutine()
+    private static IEnumerator DetectGyroCoroutine()
     {
         gyro = new SpatialData();
-
-        //wait for the gyro to attach
-        yield return new WaitForSeconds(0.1f);
-
-        if (null != gyro.device && gyro.device.Attached)
-            gamepadEnabled = false;
-        else
+        yield return new WaitForSeconds(SpatialData.WaitForAttach);
+        gamepadEnabled = !(gyro.device?.Attached ?? false);
+        if (gamepadEnabled)
         {
-            gamepadEnabled = true;
             gyro.Close();
             gyro = null;
         }
-
-        //update our controller scripts
         UpdateControlsType(gamepadEnabled);
     }
-
-    public void UpdateDebugSpeedControls(bool dsEnabled)
-    {
-        debugSpeedEnabled = dsEnabled;
-
-        if (dsEnabled == true)
-            pgc.StartDebugSpeedControls();
-        else
-            pgc.StopDebugSpeedControls();
-    }
-
-    //updates our player controller scripts depending on what type of controls we are using
-    //  if gPadEnabled == true, then our controllers will assume that we are using a xbox controller
-    //  if false, then the gyro controls will be used
-    public void UpdateControlsType(bool gPadEnabled)
+    public static void UpdateControlsType(bool gPadEnabled)
     {
         gamepadEnabled = gPadEnabled;
-
-        if (!gamepadEnabled)
-        {
-            if (gyro != null)
-            {
-                gyro.Close();
-                gyro = null;
-            }
-
+        gyro?.Close();
+        if (gamepadEnabled)
+            gyro = null;
+        else
             gyro = new SpatialData();
-        }
-
-        else if (gamepadEnabled)
-        {
-            if (gyro != null)
-            {
-                gyro.Close();
-                gyro = null;
-            }
-        }
-
         pgc.UpdateGameplayControlsType(gPadEnabled, gyro);
         pmc.UpdateMenuControlsType(gPadEnabled, gyro);
     }
-
-    //returns our controller specific movement variables and updates, currentBoardSelection and updates the board material
-    public void BoardSelect(BoardType bSelect)
+    public static void BoardSelect(BoardType bSelect)
     {
-        ManagerClasses.PlayerMovementVariables newBoardVariables = new ManagerClasses.PlayerMovementVariables();
-
-        //update our current board selection
         currentBoardSelection = bSelect;
-        PlayerPrefs.SetInt("BoardSelection", (int)currentBoardSelection);
-
-        //update our current board material
-        boardMR.material = boardMaterials[(int)currentBoardSelection];
-
-        //return the proper variables, depending on if we are using a gamepad or gyro
-        if (gamepadEnabled)
-            GamepadBoardSelect(out newBoardVariables);
-        else
-            GyroBoardSelect(out newBoardVariables);
-
-        pgc.UpdatePlayerBoard(newBoardVariables);
-
-        //make sure our fan updates
+        boardSelector.SelectBoard(bSelect);
+        pgc.UpdatePlayerBoard(gamepadEnabled ? GamepadBoardSelect(currentBoardSelection) : GyroBoardSelect());
         pfc.UpdateFanPercentage();
     }
-
-
-    //helper function
-    void GamepadBoardSelect(out ManagerClasses.PlayerMovementVariables pmv)
+    public static PlayerMovementVariables GamepadBoardSelect(BoardType boardType)
     {
+        PlayerMovementVariables pmv = new PlayerMovementVariables();
+        switch (boardType)
+        {
+            case BoardType.Original:
+                pmv.downwardAcceleration = 30.0f;
+                pmv.restingAcceleration = 17.0f;
+                pmv.upwardAcceleration = 15.0f;
+                pmv.momentum = 0.1f;
+                pmv.maxSpeed = 25.0f;
+                pmv.restingSpeed = 15.0f;
+                pmv.minSpeed = 12.0f;
+                pmv.pitchSensitivity = 3.45f;
+                pmv.yawSensitivity = 3.45f;
+                pmv.maxDescendAngle = 30.0f;
+                pmv.restingThreshold = 15.0f;
+                pmv.maxAscendAngle = 30.0f;
+                pmv.bounceModifier = 1.0f;
+                pmv.mass = 1.0f;
+                pmv.drag = 1.0f;
+                pmv.angularDrag = 5.0f;
+                break;
+            case BoardType.MachI:
+                pmv.downwardAcceleration = 45.0f;
+                pmv.restingAcceleration = 25.0f;
+                pmv.upwardAcceleration = 22.0f;
+                pmv.momentum = 0.1f;
+                pmv.maxSpeed = 35.0f;
+                pmv.restingSpeed = 23.0f;
+                pmv.minSpeed = 20.0f;
+                pmv.pitchSensitivity = 3.2f;
+                pmv.yawSensitivity = 3.2f;
+                pmv.maxDescendAngle = 30.0f;
+                pmv.restingThreshold = 18.0f;
+                pmv.maxAscendAngle = 30.0f;
+                pmv.bounceModifier = 1.0f;
+                pmv.mass = 1.0f;
+                pmv.drag = 1.0f;
+                pmv.angularDrag = 5.0f;
+                break;
+            case BoardType.MachII:
+                pmv.downwardAcceleration = 55.0f;
+                pmv.restingAcceleration = 30.0f;
+                pmv.upwardAcceleration = 25.0f;
+                pmv.momentum = 0.1f;
+                pmv.maxSpeed = 40.0f;
+                pmv.restingSpeed = 25.0f;
+                pmv.minSpeed = 21.0f;
+                pmv.pitchSensitivity = 3.15f;
+                pmv.yawSensitivity = 3.15f;
+                pmv.maxDescendAngle = 32.0f;
+                pmv.restingThreshold = 15.0f;
+                pmv.maxAscendAngle = 32.0f;
+                pmv.bounceModifier = 1.0f;
+                pmv.mass = 1.0f;
+                pmv.drag = 1.0f;
+                pmv.angularDrag = 5.0f;
+                break;
+            case BoardType.MachIII:
+                pmv.downwardAcceleration = 70.0f;
+                pmv.restingAcceleration = 42.0f;
+                pmv.upwardAcceleration = 37.0f;
+                pmv.momentum = 0.1f;
+                pmv.maxSpeed = 50.0f;
+                pmv.restingSpeed = 35.0f;
+                pmv.minSpeed = 31.0f;
+                pmv.pitchSensitivity = 3.0f;
+                pmv.yawSensitivity = 3.0f;
+                pmv.maxDescendAngle = 35.0f;
+                pmv.restingThreshold = 10.0f;
+                pmv.maxAscendAngle = 35.0f;
+                pmv.bounceModifier = 1.0f;
+                pmv.mass = 1.0f;
+                pmv.drag = 1.0f;
+                pmv.angularDrag = 5.0f;
+                break;
+            default:
+                break;
+        }
+        return pmv;
+    }
+    private static PlayerMovementVariables GyroBoardSelect()
+    {
+        PlayerMovementVariables pmv = new PlayerMovementVariables();
         switch (currentBoardSelection)
         {
             case BoardType.Original:
-                pmv = new ManagerClasses.PlayerMovementVariables
-                    (
-                    30f, 17f, 15f, 0.1f,
-                    25f, 15f, 12f,
-                    3.45f, 3.45f,
-                    30f, 15f, 30f,
-                    1f, 1f, 1f, 5f
-                    );
+                pmv.downwardAcceleration = 30.0f;
+                pmv.restingAcceleration = 17.0f;
+                pmv.upwardAcceleration = 15.0f;
+                pmv.momentum = 0.1f;
+                pmv.maxSpeed = 25.0f;
+                pmv.restingSpeed = 15.0f;
+                pmv.minSpeed = 12.0f;
+                pmv.pitchSensitivity = 2.5f;
+                pmv.yawSensitivity = 2.75f;
+                pmv.maxDescendAngle = 30.0f;
+                pmv.restingThreshold = 15.0f;
+                pmv.maxAscendAngle = 30.0f;
+                pmv.bounceModifier = 1.0f;
+                pmv.mass = 1.0f;
+                pmv.drag = 1.0f;
+                pmv.angularDrag = 5.0f;
                 break;
             case BoardType.MachI:
-                pmv = new ManagerClasses.PlayerMovementVariables
-                    (
-                    45f, 25f, 22f, 0.1f,
-                    35f, 23f, 20f,
-                    3.3f, 3.3f,
-                    30f, 18f, 30f,
-                    1f, 1f, 1f, 5f
-                    );
+                pmv.downwardAcceleration = 45.0f;
+                pmv.restingAcceleration = 25.0f;
+                pmv.upwardAcceleration = 22.0f;
+                pmv.momentum = 0.1f;
+                pmv.maxSpeed = 35.0f;
+                pmv.restingSpeed = 23.0f;
+                pmv.minSpeed = 20.0f;
+                pmv.pitchSensitivity = 2.5f;
+                pmv.yawSensitivity = 2.75f;
+                pmv.maxDescendAngle = 30.0f;
+                pmv.restingThreshold = 18.0f;
+                pmv.maxAscendAngle = 30.0f;
+                pmv.bounceModifier = 1.0f;
+                pmv.mass = 1.0f;
+                pmv.drag = 1.0f;
+                pmv.angularDrag = 5.0f;
                 break;
             case BoardType.MachII:
-                pmv = new ManagerClasses.PlayerMovementVariables
-                    (
-                    55f, 30f, 25f, 0.1f,
-                    40f, 25f, 21f,
-                    3.15f, 3.15f,
-                    32f, 15f, 32f,
-                    1f, 1f, 1f, 5f
-                    );
+                pmv.downwardAcceleration = 55.0f;
+                pmv.restingAcceleration = 30.0f;
+                pmv.upwardAcceleration = 25.0f;
+                pmv.momentum = 0.1f;
+                pmv.maxSpeed = 40.0f;
+                pmv.restingSpeed = 25.0f;
+                pmv.minSpeed = 21.0f;
+                pmv.pitchSensitivity = 2.5f;
+                pmv.yawSensitivity = 2.75f;
+                pmv.maxDescendAngle = 32.0f;
+                pmv.restingThreshold = 15.0f;
+                pmv.maxAscendAngle = 32.0f;
+                pmv.bounceModifier = 1.0f;
+                pmv.mass = 1.0f;
+                pmv.drag = 1.0f;
+                pmv.angularDrag = 5.0f;
                 break;
             case BoardType.MachIII:
-                pmv = new ManagerClasses.PlayerMovementVariables
-                    (
-                    70f, 42f, 37f, 0.1f,
-                    50f, 35f, 31f,
-                    3f, 3f,
-                    35f, 10f, 35f,
-                    1f, 1f, 1f, 5f
-                    );
+                pmv.downwardAcceleration = 70.0f;
+                pmv.restingAcceleration = 42.0f;
+                pmv.upwardAcceleration = 37.0f;
+                pmv.momentum = 0.1f;
+                pmv.maxSpeed = 50.0f;
+                pmv.restingSpeed = 35.0f;
+                pmv.minSpeed = 31.0f;
+                pmv.pitchSensitivity = 2.5f;
+                pmv.yawSensitivity = 2.75f;
+                pmv.maxDescendAngle = 35.0f;
+                pmv.restingThreshold = 10.0f;
+                pmv.maxAscendAngle = 35.0f;
+                pmv.bounceModifier = 1.0f;
+                pmv.mass = 1.0f;
+                pmv.drag = 1.0f;
+                pmv.angularDrag = 5.0f;
                 break;
             default:
-                pmv = customGamepadMovementVariables;
                 break;
         }
+        return pmv;
     }
-
-    //helper function
-    void GyroBoardSelect(out ManagerClasses.PlayerMovementVariables pmv)
-    {
-        switch (currentBoardSelection)
-        {
-            case BoardType.Original:
-                pmv = new ManagerClasses.PlayerMovementVariables
-                    (
-                    30f, 17f, 15f, 0.1f,
-                    25f, 15f, 12f,
-                    2.5f, 2.5f,
-                    30f, 15f, 30f,
-                    1f, 1f, 1f, 5f
-                    );
-                break;
-            case BoardType.MachI:
-                pmv = new ManagerClasses.PlayerMovementVariables
-                    (
-                    45f, 25f, 22f, 0.1f,
-                    35f, 23f, 20f,
-                    2.5f, 2.5f,
-                    30f, 18f, 30f,
-                    1f, 1f, 1f, 5f
-                    );
-                break;
-            case BoardType.MachII:
-                pmv = new ManagerClasses.PlayerMovementVariables
-                    (
-                    55f, 30f, 25f, 0.1f,
-                    40f, 25f, 21f,
-                    2.5f, 2.5f,
-                    32f, 15f, 32f,
-                    1f, 1f, 1f, 5f
-                    );
-                break;
-            case BoardType.MachIII:
-                pmv = new ManagerClasses.PlayerMovementVariables
-                    (
-                    70f, 42f, 37f, 0.1f,
-                    50f, 35f, 31f,
-                    2.5f, 2.5f,
-                    35f, 10f, 35f,
-                    1f, 1f, 1f, 5f
-                    );
-                break;
-            default:
-                pmv = customGyroMovementVariables;
-                break;
-        }
-    }
-
-    private void OnApplicationQuit()
-    {
-        if (gyro != null)
-            gyro.Close();
-    }
-
+    private void OnDisable() => gyro?.Close();
 }

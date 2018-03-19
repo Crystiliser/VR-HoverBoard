@@ -1,190 +1,187 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
-public class TextElementControllerScript : MonoBehaviour {
-    GameObject fpsText;
-    GameObject timerText;
-    GameObject bonusTimeText;
-    GameObject scoreText;
-    [SerializeField] GameObject[] arrow;
-    GameObject ringCountText;
-    GameObject speedText;
-    GameObject speedBar;
-    GameObject altimeterText;
-    GameObject debugGUI;
-
-    public struct hudElementsBools
+public class TextElementControllerScript : MonoBehaviour
+{
+    private GameObject timerText;
+    private GameObject bonusTimeText;
+    private GameObject scoreText;
+    private GameObject scoreMulti;
+    [SerializeField] private GameObject[] arrow;
+    private GameObject speedText;
+    private GameObject speedBar;
+    private GameObject bestlap_time;
+    /* private GameObject checkpoint_time;
+     private GameObject time_difference;*/
+    private GameObject player_list;
+    private GameObject current_lap_time;
+    //private GameObject position_text;
+    private GameObject lap_text;
+    public GameObject Compass_Display;
+    [SerializeField] private Color HUD_Color;
+    public delegate void HudColorChangedEvent(Color newColor);
+    public static event HudColorChangedEvent OnHudColorChanged;
+    public Color HudColor { get { return HUD_Color; } set { GameSettings.SetColor("HudColor", HUD_Color = value); OnHudColorChanged?.Invoke(HUD_Color); } }
+    public struct HudElementsBools
     {
         public bool timerBool;
         public bool scoreBool;
-        public bool fpsBool;
+        public bool scoremultiBool;
         public bool arrowBool;
-        public bool ringCountBool;
         public bool speedBool;
         public bool speedBarBool;
-        public bool altimeterBool;
-        public bool debugGUIBool;
-        public bool overAllBool;
+        public bool bestlapBool;
+        public bool checkpoint_timeBool;
+        public bool time_differenceBool;
+        public bool player_listBool;
+        public bool current_lap_timeBool;
+        public bool positionBool;
+        public bool lapBool;
+        public bool reticleBool;
+        public bool compassBool;
     }
-    public hudElementsBools hudElementsControl;
-
-    public void setTimer(bool isOn) { hudElementsControl.timerBool = isOn; PlayerPrefs.SetInt("HudTimerBool", isOn ? 1 : 0); }
-    public void setScore(bool isOn) { hudElementsControl.scoreBool = isOn; PlayerPrefs.SetInt("HudScoreBool", isOn ? 1 : 0); }
-    public void setFPS(bool isOn) { hudElementsControl.fpsBool = isOn; PlayerPrefs.SetInt("HudFpsBool", isOn ? 1 : 0); }
-    public void setArrow(bool isOn) { hudElementsControl.arrowBool = isOn; PlayerPrefs.SetInt("HudArrowBool", isOn ? 1 : 0); }
-    public void setRingCount(bool isOn) { hudElementsControl.ringCountBool = isOn; PlayerPrefs.SetInt("HudRingCountBool", isOn ? 1 : 0); }
-    public void setSpeed(bool isOn) { hudElementsControl.speedBool = isOn; PlayerPrefs.SetInt("HudSpeedBool", isOn ? 1 : 0); }
-    public void setSpeedBar(bool isOn) { hudElementsControl.speedBarBool = isOn; PlayerPrefs.SetInt("HudSpeedBarBool", isOn ? 1 : 0); }
-    public void setAltimeter(bool isOn) { hudElementsControl.altimeterBool = isOn; PlayerPrefs.SetInt("HudAltimeterBool", isOn ? 1 : 0); }
-    public void setDebugGUI(bool isOn) { hudElementsControl.debugGUIBool = isOn; PlayerPrefs.SetInt("HudDebugGUIBool", isOn ? 1 : 0); }
+    public HudElementsBools hudElementsControl;
+    public void setTimer(bool isOn) => hudElementsControl.timerBool = GameSettings.SetBool("HudTimer", isOn);
+    public void setScore(bool isOn) => hudElementsControl.scoreBool = GameSettings.SetBool("HudScore", isOn);
+    public void setScoreMulti(bool isOn) => hudElementsControl.scoremultiBool = GameSettings.SetBool("HudScoremulti", isOn);
+    public void setArrow(bool isOn) => hudElementsControl.arrowBool = GameSettings.SetBool("HudArrow", isOn);
+    public void setSpeed(bool isOn) => hudElementsControl.speedBool = GameSettings.SetBool("HudSpeed", isOn);
+    public void setSpeedBar(bool isOn) => hudElementsControl.speedBarBool = GameSettings.SetBool("HudSpeedBar", isOn);
+    public void setBestLap(bool isOn) => hudElementsControl.bestlapBool = GameSettings.SetBool("HudBestLap", isOn);
+    //public void setCheckpoint_time(bool isOn) => hudElementsControl.checkpoint_timeBool = GameSettings.SetBool("HudCheckpointTime", isOn);
+    // public void setTimeDifference(bool isOn) => hudElementsControl.time_differenceBool = GameSettings.SetBool("HudTimeDifference", isOn);
+    public void setPlayerList(bool isOn) => hudElementsControl.player_listBool = GameSettings.SetBool("HudPlayerList", isOn);
+    public void setCurrentLapTime(bool isOn) => hudElementsControl.current_lap_timeBool = GameSettings.SetBool("HudCurrentLapTime", isOn);
+    //public void setPositionText(bool isOn) => hudElementsControl.positionBool = GameSettings.SetBool("HudPosition", isOn);
+    public void setLapText(bool isOn) => hudElementsControl.lapBool = GameSettings.SetBool("HudLap", isOn);
+    public void setReticle(bool isOn) => hudElementsControl.reticleBool = GameSettings.SetBool("HudReticle", isOn);
+    public void setCompass(bool isOn) => hudElementsControl.compassBool = GameSettings.SetBool("HudCompass", isOn);
     public void setAll(bool isOn)
     {
         setTimer(isOn);
         setScore(isOn);
-        setFPS(isOn);
+        setScoreMulti(isOn);
         setArrow(isOn);
-        setRingCount(isOn);
         setSpeed(isOn);
-        //setSpeedBar(isOn);
-        setAltimeter(isOn);
-        setDebugGUI(isOn);
-        hudElementsControl.overAllBool = isOn;
+        setBestLap(isOn);
+        // setCheckpoint_time(isOn);
+        //setTimeDifference(isOn);
+        setPlayerList(isOn);
+        setCurrentLapTime(isOn);
+        //setPositionText(isOn);
+        setLapText(isOn);
+        setSpeedBar(isOn);
+        setReticle(isOn);
+        setCompass(isOn);
     }
-
-    //For level use
-    public void gameStart()
+    private void GameStart()
     {
+        GameMode currentMode = GameManager.gameMode;
+
+        timerText.GetComponent<TextMeshProUGUI>().color = HUD_Color;
+        bonusTimeText.GetComponent<TextMeshProUGUI>().color = HUD_Color;
+        scoreText.GetComponent<TextMeshProUGUI>().color = HUD_Color;
+        scoreMulti.GetComponent<TextMeshProUGUI>().color = HUD_Color;
+        bestlap_time.GetComponent<TextMeshProUGUI>().color = HUD_Color;
+        //checkpoint_time.GetComponent<TextMeshProUGUI>().color = HUD_Color;
+        //time_difference.GetComponent<TextMeshProUGUI>().color = HUD_Color;
+        player_list.GetComponent<TextMeshProUGUI>().color = HUD_Color;
+        current_lap_time.GetComponent<TextMeshProUGUI>().color = HUD_Color;
+        //position_text.GetComponent<TextMeshProUGUI>().color = HUD_Color;
+        lap_text.GetComponent<TextMeshProUGUI>().color = HUD_Color;
+        speedText.GetComponent<TextMeshProUGUI>().color = HUD_Color;
+        speedBar.GetComponent<Image>().color = HUD_Color;
+        Compass_Display.GetComponentInChildren<TextMeshPro>(true).color = HUD_Color;
+        Compass_Display.GetComponentsInParent<Image>(true)[0].color = HUD_Color;
+
         timerText.SetActive(hudElementsControl.timerBool);
+        bonusTimeText.SetActive(hudElementsControl.timerBool && GameMode.Cursed == currentMode);
         scoreText.SetActive(hudElementsControl.scoreBool);
-        fpsText.SetActive(hudElementsControl.fpsBool);
-        for (int i = 0; i < arrow.Length; i++)
-        {
+        scoreMulti.SetActive(hudElementsControl.scoremultiBool);
+        for (int i = 0; i < arrow.Length; ++i)
             arrow[i].SetActive(hudElementsControl.arrowBool);
-        }
-        ringCountText.SetActive(hudElementsControl.ringCountBool);
+        bestlap_time.SetActive(hudElementsControl.bestlapBool && GameMode.Race == currentMode);
+        //checkpoint_time.SetActive(hudElementsControl.checkpoint_timeBool);
+        //time_difference.SetActive(hudElementsControl.time_differenceBool);
+        player_list.SetActive(hudElementsControl.player_listBool && GameMode.Race == currentMode);
+        current_lap_time.SetActive(hudElementsControl.current_lap_timeBool && GameMode.Race == currentMode);
+        //position_text.SetActive(hudElementsControl.positionBool && GameMode.Race == currentMode);
+        lap_text.GetComponent<TextMeshProUGUI>().enabled = hudElementsControl.lapBool && (GameMode.Race == currentMode || GameMode.Cursed == currentMode);
         speedText.SetActive(hudElementsControl.speedBool);
-        //speedBar.SetActive(hudElementsControl.speedBarBool);
-        altimeterText.SetActive(hudElementsControl.altimeterBool);
-        debugGUI.SetActive(hudElementsControl.debugGUIBool);
-
-
-        switch (GameManager.instance.gameMode.currentMode)
-        {
-            case GameModes.Cursed:
-                bonusTimeText.SetActive(hudElementsControl.timerBool);
-                break;
-            case GameModes.Continuous:
-            case GameModes.Free:
-                bonusTimeText.SetActive(false);
-                break;
-            default:
-                break;
-        }
-
+        speedBar.SetActive(hudElementsControl.speedBarBool);
+        Compass_Display.SetActive(hudElementsControl.compassBool);
     }
-
-    //For menu's use
-    public void menuStart()
+    private void MenuStart()
     {
-        if (fpsText.activeSelf)
-        {
-            fpsText.SetActive(false);
-        }
-        if (timerText.activeSelf)
-        {
-            timerText.SetActive(false);
-        }
-        if (bonusTimeText.activeSelf)
-        {
-            bonusTimeText.SetActive(false);
-        }
-        if (scoreText.activeSelf)
-        {
-            scoreText.SetActive(false);
-        }
-        for (int i = 0; i < arrow.Length; i++)
-        {
-            if (arrow[i].activeSelf)
-            {
-                arrow[i].SetActive(false);
-            }
-        }
-        if (ringCountText.activeSelf)
-        {
-            ringCountText.SetActive(false);
-        }
-        if (speedText.activeSelf)
-        {
-            speedText.SetActive(false);
-        }
-        //if (speedBar.activeSelf)
-        //{
-       //     speedBar.SetActive(false);
-       // }
-        if (altimeterText.activeSelf)
-        {
-            altimeterText.SetActive(false);
-        }
-        if (debugGUI.activeSelf)
-        {
-            debugGUI.SetActive(false);
-        }
+        timerText.SetActive(false);
+        bonusTimeText.SetActive(false);
+        scoreText.SetActive(false);
+        scoreMulti.SetActive(false);
+        bestlap_time.SetActive(false);
+        //checkpoint_time.SetActive(false);
+        //time_difference.SetActive(false);
+        player_list.SetActive(false);
+        current_lap_time.SetActive(false);
+        //position_text.SetActive(false);
+        lap_text.SetActive(true);
+        lap_text.GetComponent<TextMeshProUGUI>().enabled = false;
+        for (int i = 0; i < arrow.Length; ++i)
+            arrow[i].SetActive(false);
+        speedText.SetActive(false);
+        speedBar.SetActive(false);
+        Compass_Display.SetActive(false);
     }
-
-
-    void setHud(bool isOn)
+    private void SetHud(bool isOn)
     {
         if (isOn)
-            gameStart();
+            GameStart();
         else
-            menuStart();
+            MenuStart();
     }
-
     private void OnEnable()
     {
-        fpsText = GetComponentInChildren<FPSTextUpdateScript>().gameObject;
         timerText = GetComponentInChildren<TimerTextUpdateScript>().gameObject;
         bonusTimeText = GetComponentInChildren<bonusTimeTextUpdater>().gameObject;
         scoreText = GetComponentInChildren<ScoreTextUpdateScript>().gameObject;
-        //arrow = GetComponentInChildren<arrowPointAtUpdater>().get;
-        ringCountText = GetComponentInChildren<RingCountTextUpdate>().gameObject;
+        scoreMulti = GetComponentInChildren<Score_Multi_Script>().gameObject;
+        bestlap_time = GetComponentInChildren<Best_Lap_Text_script>().gameObject;
+        //checkpoint_time = GetComponentInChildren<Checkpoint_Time_Text_Script>().gameObject;
+        //time_difference = GetComponentInChildren<Time_Gap_Text_Script>().gameObject;
+        player_list = GetComponentInChildren<Player_List_Text_script>().gameObject;
+        current_lap_time = GetComponentInChildren<Current_Lap_Time_Text>().gameObject;
+        //position_text = GetComponentInChildren<Position_Text_script>().gameObject;
+        lap_text = GetComponentInChildren<Lap_Text_script>().gameObject;
         speedText = GetComponentInChildren<SpeedUpdate>().gameObject;
-        //speedBar = GetComponentInChildren<speedBarUpdater>().gameObject;
-        altimeterText = GetComponentInChildren<altimeterTextUpdater>().gameObject;
-        debugGUI = GameObject.Find("GUI");
-
+        speedBar = GetComponentInChildren<speedBarUpdater>().gameObject;
+        Compass_Display = GetComponentInChildren<Compass_rotate>(true).gameObject;
         GetPlayerPrefs();
-
-        EventManager.OnToggleHud += setHud;
+        EventManager.OnToggleHud += SetHud;
     }
-
     private void OnDisable()
     {
-        EventManager.OnToggleHud -= setHud;
+        EventManager.OnToggleHud -= SetHud;
     }
     private void GetPlayerPrefs()
     {
-        hudElementsControl.timerBool = (0 != PlayerPrefs.GetInt("HudTimerBool", 1));
-        hudElementsControl.scoreBool = (0 != PlayerPrefs.GetInt("HudScoreBool", 1));
-        hudElementsControl.fpsBool = (0 != PlayerPrefs.GetInt("HudFpsBool", 1));
-        hudElementsControl.arrowBool = (0 != PlayerPrefs.GetInt("HudArrowBool", 1));
-        hudElementsControl.ringCountBool = (0 != PlayerPrefs.GetInt("HudRingCountBool", 1));
-        hudElementsControl.speedBool = (0 != PlayerPrefs.GetInt("HudSpeedBool", 1));
-        hudElementsControl.speedBarBool = (0 != PlayerPrefs.GetInt("HudSpeedBarBool", 1));
-        hudElementsControl.altimeterBool = (0 != PlayerPrefs.GetInt("HudAltimeterBool", 1));
-        hudElementsControl.debugGUIBool = (0 != PlayerPrefs.GetInt("HudDebugGUIBool", 1));
-        hudElementsControl.overAllBool = (0 != PlayerPrefs.GetInt("HudOverAllBool", 1));
-        PlayerPrefs.SetInt("HudTimerBool", hudElementsControl.timerBool ? 1 : 0);
-        PlayerPrefs.SetInt("HudScoreBool", hudElementsControl.scoreBool ? 1 : 0);
-        PlayerPrefs.SetInt("HudFpsBool", hudElementsControl.fpsBool ? 1 : 0);
-        PlayerPrefs.SetInt("HudArrowBool", hudElementsControl.arrowBool ? 1 : 0);
-        PlayerPrefs.SetInt("HudRingCountBool", hudElementsControl.ringCountBool ? 1 : 0);
-        PlayerPrefs.SetInt("HudSpeedBool", hudElementsControl.speedBool ? 1 : 0);
-        PlayerPrefs.SetInt("HudSpeedBarBool", hudElementsControl.speedBarBool ? 1 : 0);
-        PlayerPrefs.SetInt("HudAltimeterBool", hudElementsControl.altimeterBool ? 1 : 0);
-        PlayerPrefs.SetInt("HudDebugGUIBool", hudElementsControl.debugGUIBool ? 1 : 0);
-        PlayerPrefs.SetInt("HudOverAllBool", hudElementsControl.overAllBool ? 1 : 0);
-        PlayerPrefs.Save();
+        hudElementsControl.timerBool = GameSettings.GetBool("HudTimer", true);
+        hudElementsControl.scoreBool = GameSettings.GetBool("HudScore", true);
+        hudElementsControl.scoremultiBool = GameSettings.GetBool("HudScoremulti", true);
+        hudElementsControl.arrowBool = GameSettings.GetBool("HudArrow", true);
+        hudElementsControl.speedBool = GameSettings.GetBool("HudSpeed", true);
+        hudElementsControl.speedBarBool = GameSettings.GetBool("HudSpeedBar", true);
+        hudElementsControl.bestlapBool = GameSettings.GetBool("HudBestLap", true);
+        // hudElementsControl.time_differenceBool = GameSettings.GetBool("HudTimeDifference", true);
+        hudElementsControl.player_listBool = GameSettings.GetBool("HudPlayerList", true);
+        hudElementsControl.current_lap_timeBool = GameSettings.GetBool("HudCurrentLapTime", true);
+        //hudElementsControl.positionBool = GameSettings.GetBool("HudPosition", true);
+        //hudElementsControl.checkpoint_timeBool = GameSettings.GetBool("HudCheckpointTime", true);
+        hudElementsControl.lapBool = GameSettings.GetBool("HudLap", true);
+        hudElementsControl.reticleBool = GameSettings.GetBool("HudReticle", true);
+        hudElementsControl.compassBool = GameSettings.GetBool("HudCompass", true);
+        GameSettings.GetColor("HudColor", ref HUD_Color);
+        OnHudColorChanged?.Invoke(HUD_Color);
     }
 }

@@ -1,90 +1,78 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.VR;
-
-//our ManagerLoader prefab, will ensure that an instance of GameManager is loaded
+﻿using UnityEngine;
+using UnityEngine.PostProcessing;
+using static KeyInputManager.VR;
+public enum GameState { HubWorld, GamePlay, SceneTransition };
+public enum GameMode { Continuous, Cursed, Free, Race, GameModesSize };
+public enum GameDifficulty { Easy, Normal, Hard, GameDifficultiesSize };
 public class GameManager : MonoBehaviour
 {
-    //store our game game state
-    public ManagerClasses.GameState gameState = new ManagerClasses.GameState();
-
-    //store our game mode
-    public ManagerClasses.GameMode gameMode = new ManagerClasses.GameMode();
-
-    //store our round timer
-    public ManagerClasses.RoundTimer roundTimer;
-
-    //last level and mode we were in
-    [HideInInspector] public GameModes lastMode;
-    [HideInInspector] public int lastPortalBuildIndex = -1;
-    [HideInInspector] public int lastBuildIndex = -1;
-
-    //set our player prefab through the inspector
-    [SerializeField] GameObject playerPrefab;
-
-    //variable for singleton, static makes this variable the same through all GameManager objects
-    public static GameManager instance = null;
-
-    //variable to store our player clone
+    public static GameState gameState = GameState.HubWorld;
+    public static GameMode gameMode = GameMode.Continuous;
+    public static GameDifficulty gameDifficulty = GameDifficulty.Normal;
+    public static int AI_Number = 0;
+    public static int MaxLap = 1;
+    public static int lastPortalBuildIndex = -1;
     public static GameObject player = null;
-
-    //store our managers
-    [HideInInspector] public ScoreManager scoreScript;
-    [HideInInspector] public LevelManager levelScript;
-    [HideInInspector] public BoardManager boardScript;
-    [HideInInspector] public KeyInputManager keyInputScript;
-
-    void Awake()
+    private static GameManager instance = null;
+    [SerializeField] private GameObject playerPrefab = null;
+    private void Awake()
     {
-        //make sure we only have one instance of GameManager
-        if (instance == null)
+        if (null == instance)
             instance = this;
-
-        else if (instance != this)
+        if (this == instance)
+        {
+            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(player = Instantiate(playerPrefab));
+            if (VRPresent)
+                player.GetComponentInChildren<PostProcessingBehaviour>().profile.vignette.enabled = true;
+            GameSettings.GetEnum("GameDifficulty", ref gameDifficulty);
+            GameSettings.GetEnum("GameMode", ref gameMode);
+#if DEBUGGER
+            GameSettings.GetBool("DebugSpeed", ref BoardManager.debugSpeedEnabled);
+#endif
+            GetComponent<BoardManager>().SetupBoardManager();
+            LevelManager.SetupLevelManager();
+            ScoreManager.SetupScoreManager();
+            KeyInputManager.SetupKeyInputManager();
+        }
+        else
             Destroy(gameObject);
-
-        //ensures that our game manager persists between scenes
-        DontDestroyOnLoad(gameObject);
-
-        //store our managers
-        scoreScript = GetComponent<ScoreManager>();
-        levelScript = GetComponent<LevelManager>();
-        boardScript = GetComponent<BoardManager>();
-        keyInputScript = GetComponent<KeyInputManager>();
-
-        //setup our round timer
-        roundTimer = new ManagerClasses.RoundTimer();
-
-        //Instantiate our player, store the clone, then make sure it persists between scenes
-        player = Instantiate(playerPrefab);
-        DontDestroyOnLoad(player);
-
-        //set the game to run in the background
-        Application.runInBackground = true;
-
-        InitGame();
-
-        levelScript.RingPathIsOn = (0 != PlayerPrefs.GetInt("RingPath", levelScript.RingPathIsOn ? 1 : 0));
-        scoreScript.respawnEnabled = (0 != PlayerPrefs.GetInt("Respawn", scoreScript.respawnEnabled ? 1 : 0));
-        boardScript.debugSpeedEnabled = (0 != PlayerPrefs.GetInt("DebugSpeed", boardScript.debugSpeedEnabled ? 1 : 0));
     }
-
+    private void OnEnable()
+    {
+        GameSettings.GetBool("RingPath", ref LevelManager.RingPathIsOn);
+        GameSettings.GetBool("Respawn", ref ScoreManager.respawnEnabled);
+        GameSettings.GetBool("MirrorMode", ref LevelManager.mirrorMode);
+        GameSettings.GetBool("ReverseMode", ref LevelManager.reverseMode);
+        GameSettings.GetInt("NumAI", ref AI_Number);
+        GameSettings.GetInt("NumLaps", ref MaxLap);
+        GameSettings.GetEnum("Weather", ref WeatherScript.currentWeather);
+        GameSettings.GetEnum("TimeOfDay", ref DayNightScript.currentTimeOfDay);
+    }
+    private void OnDisable()
+    {
+        GameSettings.SetBool("RingPath", LevelManager.RingPathIsOn);
+        GameSettings.SetBool("Respawn", ScoreManager.respawnEnabled);
+#if DEBUGGER
+        GameSettings.SetBool("DebugSpeed", BoardManager.debugSpeedEnabled);
+#endif
+        GameSettings.SetBool("MirrorMode", LevelManager.mirrorMode);
+        GameSettings.SetBool("ReverseMode", LevelManager.reverseMode);
+        GameSettings.SetInt("NumAI", AI_Number);
+        GameSettings.SetInt("NumLaps", MaxLap);
+        GameSettings.SetEnum("Weather", WeatherScript.currentWeather);
+        GameSettings.SetEnum("TimeOfDay", DayNightScript.currentTimeOfDay);
+        GameSettings.SetEnum("GameDifficulty", gameDifficulty);
+        GameSettings.SetEnum("GameMode", gameMode);
+    }
+    private void OnDestroy() => GameSettings.Save();
+    private static bool deleteScores = false;
+    public static void DeleteScoresOnExit() => deleteScores = true;
+    public static bool DoNotSave => deleteScores;
     private void OnApplicationQuit()
     {
-        PlayerPrefs.SetInt("RingPath", levelScript.RingPathIsOn ? 1 : 0);
-        PlayerPrefs.SetInt("Respawn", scoreScript.respawnEnabled ? 1 : 0);
-        PlayerPrefs.SetInt("DebugSpeed", boardScript.debugSpeedEnabled ? 1 : 0);
-        PlayerPrefs.Save();
-    }
-
-    //using this instead of Awake() in our scripts allows us to control the execution order
-    void InitGame()
-    {
-        boardScript.SetupBoardManager(player);
-        levelScript.SetupLevelManager(gameState, player, instance);
-        scoreScript.SetupScoreManager();
-        keyInputScript.setupKeyInputManager(gameState);
+        if (deleteScores)
+            try { System.IO.File.Delete(Application.persistentDataPath + "/scores.gd"); }
+            catch (System.Exception e) { Debug.LogWarning($"Failed to delete scores file: ({e.Message})"); }
     }
 }

@@ -4,10 +4,6 @@ namespace UnityEngine.PostProcessing
     {
         public readonly string name;
         public bool dirty;
-
-        public GetSetAttribute(string name)
-        {
-            this.name = name;
-        }
+        public GetSetAttribute(string name) { this.name = name; }
     }
 }

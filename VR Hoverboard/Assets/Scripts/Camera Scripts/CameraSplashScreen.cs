@@ -1,76 +1,52 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.SceneManagement;
-
+using TMPro;
 public class CameraSplashScreen : MonoBehaviour
 {
-    [SerializeField] GameObject countdownTextElement = null;
-
-    TextMeshPro tmp;
-    float maxSeconds;
-
-    effectController dustEffectController;
-
+    [SerializeField] private GameObject countdownTextElement = null;
+    private TextMeshPro tmp = null;
+    private effectController dustEffectController = null;
+    private float maxSeconds = 0.0f;
     private void Start()
     {
         tmp = countdownTextElement.GetComponent<TextMeshPro>();
-        maxSeconds = 0f;
-
-
-        dustEffectController = gameObject.GetComponentInParent<PlayerGameplayController>().gameObject.GetComponentInChildren<effectController>();
+        maxSeconds = 0.0f;
+        dustEffectController = GetComponentInParent<PlayerGameplayController>().GetComponentInChildren<effectController>();
     }
-
     public void StartCountdown(float countdownSeconds)
     {
         countdownTextElement.SetActive(true);
         maxSeconds = countdownSeconds;
-
-        //pause dust field effect
-        dustEffectController.dustField.Pause();
-
+        dustEffectController.DustField.Pause();
         StopAllCoroutines();
         StartCoroutine(CountdownCoroutine());
     }
-
-    IEnumerator CountdownCoroutine()
+    private IEnumerator CountdownCoroutine()
     {
-        float currTime = 0f;
+        float currTime = 0.0f;
         while (currTime < maxSeconds)
         {
-            tmp.text = (maxSeconds - currTime).ToString("##");
-
+            tmp.SetText((maxSeconds - currTime).ToString("##"));
             currTime += Time.deltaTime;
             yield return null;
         }
-
-        maxSeconds = 0f;
-
-
-        //unpause the dustfieldEffect
-        dustEffectController.dustField.Play();
-
+        maxSeconds = 0.0f;
+        dustEffectController.DustField.Play();
         countdownTextElement.SetActive(false);
     }
-
-    //Don't keep counting down between scenes
-    void OnLevelLoaded(Scene scene, LoadSceneMode mode)
+    private void OnLevelLoaded(Scene scene, LoadSceneMode mode)
     {
         StopAllCoroutines();
-
-        maxSeconds = 0f;
+        maxSeconds = 0.0f;
         countdownTextElement.SetActive(false);
     }
-
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnLevelLoaded;
     }
-
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnLevelLoaded;
     }
-
 }

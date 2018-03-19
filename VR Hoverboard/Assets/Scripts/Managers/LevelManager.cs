@@ -1,121 +1,90 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-
-//use our LevelManger to initialize any objects that carry from one scene to the next
 public class LevelManager : MonoBehaviour
 {
-    [HideInInspector] public ManagerClasses.GameState gameState;
-
-    GameManager gameManager;
-    ScreenFade screenFade;
-
-    GameObject player;
-    Transform playerTransform;
-    PlayerMenuController menuController;
-
-    //for transitions
-    [HideInInspector] public int nextScene;
-    [HideInInspector] public bool HudOnOff = true;
-    [HideInInspector] public bool RingPathIsOn = true;
-
-    //stores each player spawn point at each different level
-    public Transform[] spawnPoints;
-
-    public void SetupLevelManager(ManagerClasses.GameState s, GameObject p, GameManager g)
+    public enum Level { Canyon, MultiEnvironment, BackyardRacetrack, ComputerChip, City, Venice, NumLevels }
+    private static ScreenFade screenFade = null;
+    private static PlayerMenuController menuController = null;
+    public static int nextScene = 0;
+    public static bool RingPathIsOn = true;
+    private static Sprite[] stcLevelPreviews = null;
+    public static bool mirrorMode = false;
+    public static bool reverseMode = false;
+    public static Level savedCurrentLevel = Level.Canyon;
+    private static Transform[] stcSpawnPoints = null;
+    public static Transform[] SpawnPoints => stcSpawnPoints;
+    [SerializeField] private Transform[] spawnPoints = null;
+    [SerializeField] private Sprite[] levelPreviews = null;
+    public static Sprite GetLevelPreview(Level level) => stcLevelPreviews[(int)level];
+    public static void SetupLevelManager()
     {
-        player = p;
-        playerTransform = p.GetComponent<Transform>();
-        gameState = s;
-        gameManager = g;
-        menuController = p.GetComponent<PlayerMenuController>();
-        screenFade = p.GetComponentInChildren<ScreenFade>();
-    } 
-
-    //for debugging
-    void OnLevelLoaded(Scene scene, LoadSceneMode mode)
-    {
-        BuildDebugger.WriteLine("Scene changed to: " + scene.name);
+        menuController = GameManager.player.GetComponent<PlayerMenuController>();
+        screenFade = GameManager.player.GetComponentInChildren<ScreenFade>();
     }
-
-    public void DoSceneTransition(int sceneIndex)
+    private void Awake()
+    {
+        stcLevelPreviews = levelPreviews;
+        stcSpawnPoints = spawnPoints;
+        UnityEngine.Assertions.Assert.AreEqual(SceneManager.sceneCountInBuildSettings, spawnPoints.Length, $"GameManager.instance.levelScript.spawnPoints.Length should be {SceneManager.sceneCountInBuildSettings}.. Actual value: {spawnPoints.Length}");
+        UnityEngine.Assertions.Assert.AreEqual(LevelCount, levelPreviews.Length, $"GameManager.instance.levelScript.levelPreviews.Length should be {LevelCount}.. Actual value: {levelPreviews.Length}");
+    }
+    private static void DoSceneTransition(int sceneIndex)
     {
         nextScene = sceneIndex;
         EventManager.OnTriggerSelectionLock(true);
-        player.GetComponentInChildren<effectController>().disableAllEffects();
-        screenFade.StartTransitionFade();  
+        GameManager.player.GetComponentInChildren<effectController>().disableAllEffects();
+        screenFade.StartTransitionFade();
     }
-
-    public void UndoSceneTransitionLocks(Scene scene, LoadSceneMode mode)
+    private void UndoSceneTransitionLocks(Scene scene, LoadSceneMode mode)
     {
-        //set our gameState based off of our scene build index
-        switch (scene.buildIndex)
+        if (scene.buildIndex >= LevelBuildOffset)
         {
-            case 0: //Starting area
-                menuController.ToggleMenuMovement(true);
-                EventManager.OnSetHudOnOff(false);
-                gameState.currentState = GameStates.MainMenu;
-                break;
-            case 1: // HubWorld
-                //moved to a button switch after first startup
-                if (gameManager.lastPortalBuildIndex == -1)
-                {
-                    menuController.ToggleMenuMovement(false);
-                }
-                           
-                EventManager.OnSetHudOnOff(false);
-                gameState.currentState = GameStates.MainMenu;
-                gameManager.scoreScript.score = 0;
-                gameManager.scoreScript.ringHitCount = 0;
-                gameManager.scoreScript.firstPortal = true;
-                break;             
-            default:
-                EventManager.OnSetHudOnOff(HudOnOff);
-                EventManager.OnSetArrowOnOff(HudOnOff);
-                applyGamemodeChanges();
-                gameState.currentState = GameStates.GamePlay;
-                break;
+            EventManager.OnSetHudOnOff(true);
+            ApplyGamemodeChanges();
+            GameManager.gameState = GameState.GamePlay;
         }
-
-        playerTransform.SetPositionAndRotation(spawnPoints[scene.buildIndex].position, spawnPoints[scene.buildIndex].rotation);
-
+        else
+        {
+            if (GameManager.lastPortalBuildIndex != -1)
+                menuController.ToggleMenuMovement(true);
+            EventManager.OnSetHudOnOff(false);
+            GameManager.gameState = GameState.HubWorld;
+            ScoreManager.score = 0;
+            ScoreManager.ringHitCount = 0;
+            ScoreManager.firstPortal = true;
+        }
+        GameManager.player.transform.SetPositionAndRotation(spawnPoints[scene.buildIndex].position, spawnPoints[scene.buildIndex].rotation);
         EventManager.OnTriggerSelectionLock(false);
     }
-
-    void applyGamemodeChanges()
+    private static void ApplyGamemodeChanges()
     {
-        switch (gameManager.gameMode.currentMode)
+        if (GameMode.Free == GameManager.gameMode)
         {
-            case GameModes.Continuous:
-
-                EventManager.OnCallSetRingPath(RingPathIsOn);
-                break;
-            case GameModes.Cursed:
-
-                EventManager.OnCallSetRingPath(RingPathIsOn);
-                break;
-            case GameModes.Free:
-
-                EventManager.OnCallSetRingPath(false);
-                break;
-            default:
-                break;
+            GameManager.lastPortalBuildIndex = -1;
+            EventManager.OnCallSetRingPath(false);
         }
+        else
+            EventManager.OnCallSetRingPath(RingPathIsOn);
     }
-
-    public void OnEnable()
+    private void OnEnable()
     {
         EventManager.OnTransition += DoSceneTransition;
         SceneManager.sceneLoaded += UndoSceneTransitionLocks;
-        SceneManager.sceneLoaded += OnLevelLoaded;
     }
-
-    public void OnDisable()
+    private void OnDisable()
     {
         EventManager.OnTransition -= DoSceneTransition;
         SceneManager.sceneLoaded -= UndoSceneTransitionLocks;
-        SceneManager.sceneLoaded -= OnLevelLoaded;
     }
-
+    public const int HubWorldBuildIndex = 1;
+    public const int LevelBuildOffset = HubWorldBuildIndex + 1;
+    public const int LevelCount = (int)(Level.NumLevels);
+    public const int MirroredOffset = LevelCount;
+    public const int MirroredBuildOffset = LevelBuildOffset + MirroredOffset;
+    public const int ReversedOffset = MirroredOffset + LevelCount;
+    public const int ReversedBuildOffset = LevelBuildOffset + ReversedOffset;
+    public const int MirroredReversedOffset = ReversedOffset + LevelCount;
+    public const int MirroredReversedBuildOffset = LevelBuildOffset + MirroredReversedOffset;
+    public static int GetLevelOffset => mirrorMode ? (reverseMode ? MirroredReversedOffset : MirroredOffset) : (reverseMode ? ReversedOffset : 0);
+    public static int GetBuildOffset => LevelBuildOffset + GetLevelOffset;
 }

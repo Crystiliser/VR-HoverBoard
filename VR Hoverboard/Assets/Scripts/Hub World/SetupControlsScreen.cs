@@ -1,28 +1,26 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using static KeyInputManager.VR;
 public class SetupControlsScreen : MonoBehaviour
 {
-    BoardManager boardManager;
-    [SerializeField] Sprite[] controlsImages;
-    [SerializeField] GameObject controlsObject;
-
-	// Use this for initialization
-	void Start ()
+    [SerializeField] private Sprite loadingImage = null;
+    [SerializeField] private Sprite[] controlsImages = null;
+    [SerializeField] private Image ImageObject = null;
+    private void Start()
     {
-        boardManager = GameManager.instance.boardScript;
+        ImageObject.sprite = loadingImage;
         StartCoroutine(WaitForDetection());
-	}
-	
-	IEnumerator WaitForDetection()
+    }
+    private IEnumerator WaitForDetection()
     {
-        yield return new WaitForSeconds(0.15f);
-
-        if (boardManager.gamepadEnabled)
-            controlsObject.GetComponent<Image>().sprite = controlsImages[0];
+        yield return new WaitForSeconds(SpatialData.WaitForAttach);
+        if (BoardManager.gamepadEnabled)
+            if (VRPresent)
+                ImageObject.sprite = controlsImages[0];
+            else
+                ImageObject.sprite = controlsImages[2];
         else
-            controlsObject.GetComponent<Image>().sprite = controlsImages[1];
+            ImageObject.sprite = controlsImages[1];
     }
 }

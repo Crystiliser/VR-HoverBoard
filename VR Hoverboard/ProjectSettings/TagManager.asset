@@ -12,6 +12,25 @@ TagManager:
   - FadeCover
   - Board
   - Music
+  - lastTutorialPanel
+  - tutorial
+  - nextPrevSkip
+  - confirm
+  - Fire
+  - worldPortals
+  - boardStands
+  - menuSystem
+  - ball
+  - Boulder
+  - sun
+  - stars
+  - rain
+  - cloud
+  - eveningSun
+  - worldSnow
+  - playerSnow
+  - tutorialSpotLight
+  - invisibleWalls
   layers:
   - Default
   - TransparentFX
@@ -24,7 +43,7 @@ TagManager:
   - Boundry
   - Particle
   - Selectable
-  - 
+  - Compass
   - 
   - 
   - 

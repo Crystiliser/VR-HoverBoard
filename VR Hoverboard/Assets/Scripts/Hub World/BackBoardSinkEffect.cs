@@ -1,76 +1,36 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 public class BackBoardSinkEffect : MonoBehaviour
 {
-    enum TransitionStates { Sinking, Floating };
-
-    Transform translationTransform;
-
-    [SerializeField] float transitionTime = 1f;
-    [SerializeField] float sinkRate = 0.1f;
-    [SerializeField] float sinkDistance = 0.2f;
-
-    void Start ()
-    {
-		translationTransform = GetComponent<Transform>();
-    }
-
+    public delegate void ContentUpdate();
+    public static event ContentUpdate StartContentUpdate;
+    [SerializeField] private float transitionTime = 1.0f, sinkRate = 6.0f, sinkDistance = 0.2f;
     public IEnumerator SinkEffectCoroutine(Transform backBoardTransform)
-    {    
-        float transitionTimer = 0f, halfTransitionTime = transitionTime / 2f;
-
+    {
+        float transitionTimer = 0.0f;
         Vector3 originalPosition = backBoardTransform.position, currPosition = backBoardTransform.position;
-
-        translationTransform.position = backBoardTransform.position;
-        translationTransform.rotation = backBoardTransform.rotation;
-        translationTransform.localScale = backBoardTransform.localScale;
-
-        translationTransform.Translate(Vector3.forward * sinkDistance);
-        Vector3 sinkToPosition = translationTransform.position;
-
-        TransitionStates currentTransition = TransitionStates.Sinking;
-
+        transform.position = backBoardTransform.position;
+        transform.rotation = backBoardTransform.rotation;
+        transform.localScale = backBoardTransform.localScale;
+        transform.Translate(0.0f, 0.0f, sinkDistance);
+        Vector3 sinkToPosition = transform.position;
+        bool isSinking = true;
         while (true)
         {
-            switch (currentTransition)
-            {
-                case TransitionStates.Sinking:
-                    currPosition = Vector3.Lerp(currPosition, sinkToPosition, sinkRate);
-                    break;
-                case TransitionStates.Floating:
-                    currPosition = Vector3.Lerp(currPosition, originalPosition, sinkRate);
-                    break;
-            }
-
+            Vector3.Lerp(currPosition, isSinking ? sinkToPosition : originalPosition, sinkRate * Time.deltaTime);
             backBoardTransform.position = currPosition;
-
             transitionTimer += Time.deltaTime;
-
-            if (currentTransition == TransitionStates.Sinking && transitionTimer >= halfTransitionTime)
+            if (isSinking && transitionTimer >= transitionTime * 0.5f)
             {
-                currentTransition = TransitionStates.Floating;
-                OnStartContentUpdate();
+                isSinking = false;
+                StartContentUpdate?.Invoke();
             }
-
-            else if (currentTransition == TransitionStates.Floating && transitionTimer >= transitionTime)
+            else if (!isSinking && transitionTimer >= transitionTime)
             {
                 backBoardTransform.position = originalPosition;
                 break;
             }
-
             yield return null;
         }
     }
-
-    public delegate void ContentUpdate();
-    public static event ContentUpdate StartContentUpdate;
-
-    static public void OnStartContentUpdate()
-    {
-        if (StartContentUpdate != null)
-            StartContentUpdate();
-    }
-
 }

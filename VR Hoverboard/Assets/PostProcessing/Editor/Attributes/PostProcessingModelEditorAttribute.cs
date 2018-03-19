@@ -1,16 +1,8 @@
-using System;
-
 namespace UnityEditor.PostProcessing
 {
-    public class PostProcessingModelEditorAttribute : Attribute
+    public class PostProcessingModelEditorAttribute : System.Attribute
     {
-        public readonly Type type;
-        public readonly bool alwaysEnabled;
-
-        public PostProcessingModelEditorAttribute(Type type, bool alwaysEnabled = false)
-        {
-            this.type = type;
-            this.alwaysEnabled = alwaysEnabled;
-        }
+        public readonly System.Type type;
+        public PostProcessingModelEditorAttribute(System.Type type) { this.type = type; }
     }
 }

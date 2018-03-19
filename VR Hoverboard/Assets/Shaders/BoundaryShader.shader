@@ -10,6 +10,8 @@ Shader "Custom/BoundaryShader"
 		_Metallic("Metallic", Range(0,1)) = 0.0
 		_MaxDistance("DistanceTillView", Float) = 30.0
 		_RatioDivideAmount("RatioDivideAmount", Float) = 1500.0
+
+		//[HideInInspector] _Mode("__mode", Float) = 2.0
 	}
 	SubShader 
 		{
@@ -17,8 +19,10 @@ Shader "Custom/BoundaryShader"
 		{ 
 			"Queue" = "Transparent"
 			"RenderType"="Transparent"
+			//"IgnoreProjector"="True"
 		}
 		LOD 200
+		//Blend SrcAlpha OneMinusSrcAlpha
 		
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types
@@ -90,5 +94,5 @@ Shader "Custom/BoundaryShader"
 		
 		ENDCG
 	}
-	FallBack "Standard"
+	FallBack Off
 }

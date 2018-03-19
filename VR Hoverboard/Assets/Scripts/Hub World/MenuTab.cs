@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
 public class MenuTab : MonoBehaviour
 {
     private SelectedObject[] buttons;
-    private void Awake()
+    protected void Awake()
     {
         buttons = GetComponentsInChildren<SelectedObject>();
         if (this != GetComponentInParent<MainMenu>().mainTab)
