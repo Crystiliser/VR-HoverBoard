@@ -36,19 +36,16 @@ Thing of interest (things I am particularly proud of creating):
 
 
 Graphics effects made using custom shaders in Unity,
+such as a boundary box that fades in the closer you get to it,
 ![img](https://i.imgur.com/2KpsPeP.jpg)
 
-such as a boundary box that fades in the closer you get to it,
 
 
 
 
-
-
-![img](https://i.imgur.com/Fxqna8Y.jpg)
 
 a warping effect over the portals,
-![img](https://i.imgur.com/tXwQ61u.jpg)
+![img](https://i.imgur.com/Fxqna8Y.jpg)
 
 
 
@@ -58,7 +55,7 @@ a warping effect over the portals,
 
 
 and a static computer screen effect for the background of the menu’s
-
+![img](https://i.imgur.com/tXwQ61u.jpg)
 
 
 
