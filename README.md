@@ -1,5 +1,5 @@
 Cyber Surf is a VR flying game where the player races to discover new worlds or race against the computer. 
-![img](https://i.imgur.com/7Nn5dv3.png =282x214)
+![img](https://i.imgur.com/7Nn5dv3.png | width=282)
 
 
 
@@ -9,13 +9,13 @@ Cyber Surf is a VR flying game where the player races to discover new worlds or 
 
 
 An assortment of different Cyber Surf boards are available to choose from, each with their own individual handling. 
-![img](https://i.imgur.com/vgA8op4.jpg =363x204)
+![img](https://i.imgur.com/vgA8op4.jpg | width=363)
 
 
 
 
 Modes can be tailored to fit the competitive nature of each individual player, ranging from Time Trial to Exploration. 
-![img](https://i.imgur.com/tXwQ61u.jpg =366x215)
+![img](https://i.imgur.com/tXwQ61u.jpg | width=366 )
 
 
 
@@ -25,7 +25,7 @@ Modes can be tailored to fit the competitive nature of each individual player, r
 
 Ditch your gamepad controller and use the custom-built surfboard controller to reach a whole new level of immersion.
 
-![img](https://i.imgur.com/OfaD3LM.png =364x206)
+![img](https://i.imgur.com/OfaD3LM.png | width=364 )
 
 
 
