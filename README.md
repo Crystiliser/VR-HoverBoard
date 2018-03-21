@@ -1,5 +1,5 @@
 Cyber Surf is a VR flying game where the player races to discover new worlds or race against the computer. 
-![img](https://i.imgur.com/7Nn5dv3.png)
+![img](https://i.imgur.com/7Nn5dv3.png =282x214)
 
 
 
@@ -9,13 +9,13 @@ Cyber Surf is a VR flying game where the player races to discover new worlds or 
 
 
 An assortment of different Cyber Surf boards are available to choose from, each with their own individual handling. 
-![img](https://i.imgur.com/vgA8op4.jpg)
+![img](https://i.imgur.com/vgA8op4.jpg =363x204)
 
 
 
 
 Modes can be tailored to fit the competitive nature of each individual player, ranging from Time Trial to Exploration. 
-![img](https://i.imgur.com/tXwQ61u.jpg)
+![img](https://i.imgur.com/tXwQ61u.jpg =366x215)
 
 
 
@@ -25,7 +25,7 @@ Modes can be tailored to fit the competitive nature of each individual player, r
 
 Ditch your gamepad controller and use the custom-built surfboard controller to reach a whole new level of immersion.
 
-![img](https://i.imgur.com/OfaD3LM.png)
+![img](https://i.imgur.com/OfaD3LM.png =364x206)
 
 
 
@@ -36,7 +36,7 @@ Thing of interest (things I am particularly proud of creating):
 
 
 Graphics effects made using custom shaders in Unity,
-![img](https://i.imgur.com/2KpsPeP.jpg)
+![img](https://i.imgur.com/2KpsPeP.jpg =392x187)
 
 such as a boundary box that fades in the closer you get to it,
 
@@ -45,10 +45,10 @@ such as a boundary box that fades in the closer you get to it,
 
 
 
-![img](https://i.imgur.com/Fxqna8Y.jpg)
+![img](https://i.imgur.com/Fxqna8Y.jpg =331x186)
 
 a warping effect over the portals,
-![img](https://i.imgur.com/tXwQ61u.jpg)
+![img](https://i.imgur.com/tXwQ61u.jpg =330x186)
 
 
 
